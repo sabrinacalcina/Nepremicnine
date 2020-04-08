@@ -10,4 +10,4 @@ V našem projektu bomo sestavili bazo nepremičnin. Podatke smo pridobili iz spl
 
 Prilagamo še sliko ER-diagrama, na podlagi katerega smo oblikovali našo podatkovno bazo.
 
-![Er diagram](NEPREMICNINE.png)
+![Er diagram](Nepremičnine.png)

@@ -9,10 +9,7 @@ def index():
     return bottle.template('zacetna_stran.html')
 
 
+bottle.run(host='localhost', port=8080)
 
-
-
-
-bottle.run(reloader=True, debug=True)
 
 

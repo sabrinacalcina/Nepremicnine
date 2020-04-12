@@ -1,6 +1,6 @@
 -- Nepremičnine:
 CREATE TABLE nepremicnine (
-  id serial PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   ime text NOT NULL,
   vrsta text NOT NULL,
   opis text NOT NULL,

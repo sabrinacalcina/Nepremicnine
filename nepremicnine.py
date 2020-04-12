@@ -10,6 +10,3 @@ def index():
 
 
 bottle.run(host='localhost', port=8080)
-
-
-

@@ -9,6 +9,8 @@ __pycache__
 .Rhistory
 .Rproj.user
 .RData
+.ipynb_checkpoints
+.vscode
 auth.py
 auth.R
 Thumbs.db

@@ -1,0 +1,40 @@
+% rebase('base.html')
+
+<body class="text-center">
+    <div align="center">
+    <form class="form-signin text-center" method="post" style="width: 30%;margin-top: 5cm">
+        <div class="h3 mb-3 font-weight-normal">
+          <h1>Registriraj se</h1>
+          <p>Izpolnite naslednja polja in si ustvari uporabniški račun.</p>
+
+          <label for="name"><b>Ime: </b></label>
+          <input type="text" class="form-control" placeholder="Vnesite svoje ime" name="name" required>
+          <br>
+          <label for="surname"><b>Priimek: </b></label>
+          <input type="text" placeholder="Vnesite svoj priimek" name="surname" required>
+          <br>
+          <label for="email"><b>Elektronski naslov: </b></label>
+          <input type="text" placeholder="Vnesite elektronski naslov" name="email" required>
+          <br>
+          <label for="acc_name"><b>Uporabniško ime: </b></label>
+          <input type="text" class="form-control" placeholder="Vnesite uporabniško ime" name="acc_name" required>
+          <br>
+          <label for="psw"><b>Geslo: </b></label>
+          <input type="password" placeholder="Vnesite geslo" name="psw" required>
+          <br>
+          <label for="psw-repeat"><b>Ponovni vnos gesla: </b></label>
+          <input type="password" placeholder="Ponovno vnesite geslo" name="psw-repeat" required>
+          <br>
+          <label>
+            <input type="checkbox" checked="checked" name="Remember me" style="margin-bottom:15px"> Zapomni si uporabniško ime
+          </label>
+          <br>
+          <input type="checkbox" checked="checked" name="agree" style="margin-bottom:15px"> Strinjam se s pogoji uporabe
+          <a href="#" style="color:dodgerblue">Terms & Privacy</a>
+      
+          <div class="clearfix">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Registriraj me</button>
+            <button class="btn btn-lg btn-primary btn-block" type="canclel">Prekliči</button>
+          </div>
+        </div>
+      </form>

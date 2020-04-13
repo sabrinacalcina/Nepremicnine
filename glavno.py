@@ -25,9 +25,9 @@ def agencije_get():
     return template('agencije.html')
 #=========================================================
 
-@get('/mesta/')
-def mesta_get():
-    return template('mesta.html')
+@get('/regije/')
+def regije_get():
+    return template('regije.html')
 #=========================================================
 
 @get('/registracija/')

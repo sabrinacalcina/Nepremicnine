@@ -22,8 +22,8 @@ CREATE TABLE nepremicnine (
   zemljisce real,
   velikost real NOT NULL,
   cena real NOT NULL,
-  agencija integer REFERENCES agencije(id),
-  regija integer REFERENCES regije(id)
+  agencija integer,
+  regija integer
 );
 
 CREATE TABLE uporabnik(
@@ -33,5 +33,3 @@ CREATE TABLE uporabnik(
 	uporabinsko_ime text NOT NULL,
 	geslo text NOT NULL	
 );
-
-

@@ -1,12 +1,9 @@
 import definicije
 import bottle
-from bottle import *
+from bottle import route, run, Response, template
 
 import psycopg2, psycopg2.extensions, psycopg2.extras
 psycopg2.extensions.register_type(psycopg2.extensions.UNICODE) # se znebimo problemov s sumniki
-
-#za sporočila o napakah
-debug(True)
 
 app = bottle.default_app()
 
@@ -16,7 +13,7 @@ def index():
 
 
 
-bottle.run(host='localhost', port=8080, reloader=True)
+bottle.run(host='localhost', port=8080)
 
 
 

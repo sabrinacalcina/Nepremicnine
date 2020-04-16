@@ -30,16 +30,18 @@ CREATE TABLE uporabnik(
 	id serial PRIMARY KEY,
 	ime text NOT NULL,
 	priimek text NOT NULL,
-	uporabinsko_ime text NOT NULL,
+  email text NOT NULL,
+	uporabnisko_ime text NOT NULL,
 	geslo text NOT NULL	
 );
 
--- GRANT ALL ON DATABASE sem2020_domenfb TO sabrinac;
--- GRANT ALL ON DATABASE sem2020_domenfb TO timotejg;
--- GRANT ALL ON SCHEMA public TO sabrinac;
--- GRANT ALL ON ALL TABLES IN SCHEMA public TO andrazp;
--- GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO andrazp;
+GRANT ALL ON DATABASE sem2020_domenfb TO sabrinac;
+GRANT ALL ON SCHEMA public TO sabrinac;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO sabrinac;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO sabrinac;
 
--- GRANT SELECT ON ALL TABLES IN SCHEMA public TO javnost;
--- GRANT INSERT ON tabela TO javnost;
--- GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO javnost;
+GRANT ALL ON DATABASE sem2020_domenfb TO timotejg;
+GRANT ALL ON SCHEMA public TO timotejg;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO timotejg;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO timotejg;
+

@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS uporabnik;
 
 CREATE TABLE regije (
   id serial PRIMARY KEY,
-  regije text NOT NULL
+  regija text NOT NULL
 );
 
 CREATE TABLE agencije (
@@ -19,7 +19,7 @@ CREATE TABLE nepremicnine (
   vrsta text NOT NULL,
   opis text NOT NULL,
   leto_izgradnje integer,
-  zemljisce real,
+  zemljisce text, --tu more bit real
   velikost real NOT NULL,
   cena real NOT NULL,
   agencija integer REFERENCES agencije(id),
@@ -34,4 +34,12 @@ CREATE TABLE uporabnik(
 	geslo text NOT NULL	
 );
 
+-- GRANT ALL ON DATABASE sem2020_domenfb TO sabrinac;
+-- GRANT ALL ON DATABASE sem2020_domenfb TO timotejg;
+-- GRANT ALL ON SCHEMA public TO sabrinac;
+-- GRANT ALL ON ALL TABLES IN SCHEMA public TO andrazp;
+-- GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO andrazp;
 
+-- GRANT SELECT ON ALL TABLES IN SCHEMA public TO javnost;
+-- GRANT INSERT ON tabela TO javnost;
+-- GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO javnost;

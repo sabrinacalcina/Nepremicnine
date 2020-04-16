@@ -26,13 +26,19 @@ CREATE TABLE nepremicnine (
   regija integer REFERENCES regije(id)
 );
 
-CREATE TABLE uporabnik(
+CREATE TABLE uporabniki(
 	id serial PRIMARY KEY,
 	ime text NOT NULL,
 	priimek text NOT NULL,
   email text NOT NULL,
-	uporabnisko_ime text NOT NULL,
-	geslo text NOT NULL	
+	uporabnisko_ime text NOT NULL UNIQUE,
+	geslo text NOT NULL,
+  CONSTRAINT user_mail UNIQUE(email, uporabnisko_ime)
+);
+
+CREATE TABLE priljubljene(
+  uporabnik integer REFERENCES uporabniki(id),
+  nepremicnina integer REFERENCES nepremicnine(id)
 );
 
 GRANT ALL ON DATABASE sem2020_domenfb TO sabrinac;

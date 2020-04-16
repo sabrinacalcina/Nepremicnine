@@ -47,4 +47,5 @@ with psycopg2.connect(database=db, host=host, user=user, password=password) as c
     uvoziCSV(cur, 'regije')
     uvoziCSV(cur, 'agencije')
     uvoziNepremicnineCSV(cur, 'nepremicnine')
+    uvoziCSV(cur, 'uporabniki')
     con.commit()

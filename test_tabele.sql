@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS uporabnik;
 
 CREATE TABLE regije (
   id serial PRIMARY KEY,
-  regije text NOT NULL
+  regija text NOT NULL
 );
 
 CREATE TABLE agencije (
@@ -22,8 +22,8 @@ CREATE TABLE nepremicnine (
   zemljisce real,
   velikost real NOT NULL,
   cena real NOT NULL,
-  agencija integer,
-  regija integer
+  agencija text,
+  regija text
 );
 
 CREATE TABLE uporabnik(

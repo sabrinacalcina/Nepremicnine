@@ -9,9 +9,22 @@ def uvoziSQL(cur, datoteka):
         skripta = f.read()
         cur.executescript(skripta)
 
-#UVOZ CSV-JA
+# def uvoziCSV(cur, tabela):
+#     with open('test_podatki/{0}.csv'.format(tabela)) as csvfile:
+#         podatki = csv.reader(csvfile)
+#         vsiPodatki = [vrstica for vrstica in podatki]
+#         glava = vsiPodatki[0]
+#         i = 0
+#         for vrstica in podatki:
+#             cur.execute("INSERT INTO {0} ({1}) VALUES ({2})".format(
+#                 tabela, ",".join(glava), ",".join(['?']*len(glava))), vrstica)
+#             i += 1
+#             return i
+
+
+# UVOZ CSV-JA
 def uvoziCSV(cur, tabela):
-    with open('test_podatki/{0}.csv'.format(tabela)) as csvfile:
+    with open('tabele/{0}.csv'.format(tabela), encoding='utf-8') as csvfile:
         podatki = csv.reader(csvfile)
         vsiPodatki = [vrstica for vrstica in podatki]
         glava = vsiPodatki[0]
@@ -19,9 +32,11 @@ def uvoziCSV(cur, tabela):
         cur.executemany("INSERT INTO {0} ({1}) VALUES ({2})".format(
             tabela, ",".join(glava), ",".join(['?']*len(glava))), vrstice)
 
+        
+
 with sqlite3.connect(baza) as baza:
     cur = baza.cursor()
-    uvoziSQL(cur, 'test_tabele.sql')
+    uvoziSQL(cur, 'tabele.sql')
     uvoziCSV(cur, 'regije')
     uvoziCSV(cur, 'nepremicnine')
     uvoziCSV(cur, 'agencije')

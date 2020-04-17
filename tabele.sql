@@ -1,7 +1,8 @@
+DROP TABLE IF EXISTS priljubljene;
 DROP TABLE IF EXISTS nepremicnine;
 DROP TABLE IF EXISTS agencije;
 DROP TABLE IF EXISTS regije;
-DROP TABLE IF EXISTS uporabnik;
+DROP TABLE IF EXISTS uporabniki;
 
 CREATE TABLE regije (
   id serial PRIMARY KEY,
@@ -26,13 +27,19 @@ CREATE TABLE nepremicnine (
   regija integer REFERENCES regije(id)
 );
 
-CREATE TABLE uporabnik(
+CREATE TABLE uporabniki(
 	id serial PRIMARY KEY,
 	ime text NOT NULL,
 	priimek text NOT NULL,
-  email text NOT NULL,
-	uporabnisko_ime text NOT NULL,
-	geslo text NOT NULL	
+  email text NOT NULL UNIQUE,
+	uporabnisko_ime text NOT NULL UNIQUE,
+	geslo text NOT NULL
+  --CONSTRAINT blabla UNIQUE(kire stolpce)  lahko tudi tak delas
+);
+
+CREATE TABLE priljubljene(
+  uporabnik integer REFERENCES uporabniki(id),
+  nepremicnina integer REFERENCES nepremicnine(id)
 );
 
 GRANT ALL ON DATABASE sem2020_domenfb TO sabrinac;

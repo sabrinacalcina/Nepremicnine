@@ -1,7 +1,4 @@
-body {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-  color: #5a5a5a;}   
+/* Zgornja vrstica */
 
 .header {
   overflow: hidden;
@@ -43,17 +40,6 @@ body {
   float: right;
 }
 
-@media screen and (max-width: 500px) {
-  .header a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
-  
-  .header-right {
-    float: none;
-  }
-}
 
 
 
@@ -65,11 +51,8 @@ body {
 
 
 
-* {box-sizing: border-box}
-    body {font-family: Verdana, sans-serif; margin:0}
-    .mySlides {display: none}
-    img {vertical-align: middle;}
-    
+
+
     /* Slideshow container */
     .slideshow-container {
       max-width: 1000px;
@@ -109,6 +92,7 @@ body {
       background-color: rgba(0,0,0,0.8);
     }
     
+
     /* Caption text */
     .text {
       color: #f2f2f2;
@@ -168,79 +152,5 @@ body {
       .prev, .next,.text {font-size: 11px}
     }
 
+/*konec slideshow */
 
-
-    .grid-container {
-      display: grid;
-      grid-template-columns: auto auto auto;
-      grid-template-rows: 220px 100px;
-      grid-gap: 40px;
-      background-color: white;
-      padding: 10px;
-      background-color:rgb(122, 115, 115);color:black;padding:20px;
-      center;
-    }
-    
-    .grid-container > div {
-      background-color: rgba(255, 255, 255, 0.8);
-      text-align: center;
-      padding: 30px 0;
-      font-size: 20px;
-    }
-  
-    .buttonstar {
-      font: bold 14px Arial;
-      text-decoration: none;
-      background-color: #EEEEEE;
-      color: #333333;
-      padding: 6px 10px 4px 8px;
-      border-top: 1px solid #CCCCCC;
-      border-right: 1px solid #333333;
-      border-bottom: 1px solid #333333;
-      border-left: 1px solid #CCCCCC;
-  }
-    .buttonstar:hover {
-      background-color: rgb(190, 190, 190);
-  }
-
-
-  /*gumbek*/
-  .button {
-    display: inline-block;
-    border-radius: 4px;
-    background-color: #f2faff;
-    border: none;
-    color: rgb(41, 34, 34);
-    text-align: center;
-    font-size: 28px;
-    padding: 20px;
-    width: 50px;
-    transition: all 0.5s;
-    cursor: pointer;
-    margin: 5px;
-  }
-  
-  .button span {
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    transition: 0.5s;
-  }
-  
-  .button span:after {
-    content: '\00bb';
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    right: -20px;
-    transition: 0.5s;
-  }
-  
-  .button:hover span {
-    padding-right: 25px;
-  }
-  
-  .button:hover span:after {
-    opacity: 1;
-    right: 0;
-  }

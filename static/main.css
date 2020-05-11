@@ -223,6 +223,7 @@
 		-moz-box-sizing: border-box;
 		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
+		align-items: center;
 	}
 
 	.row > * {
@@ -1788,7 +1789,7 @@
 	}
 
 		section.special article, article.special article {
-			text-align: left;
+			text-align: center;
 		}
 
 	section.wrapper, article.wrapper {

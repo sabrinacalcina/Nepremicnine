@@ -2,6 +2,10 @@ import definicije
 from bottle import *
 import requests
 
+# uvozimo ustrezne podatke za povezavo
+import auth_public 
+from auth_public import *
+
 import psycopg2, psycopg2.extensions, psycopg2.extras
 psycopg2.extensions.register_type(psycopg2.extensions.UNICODE) # se znebimo problemov s sumniki
 
@@ -21,7 +25,8 @@ def index():
 #=========================================================
 
 @get('/nepremicnine/')
-def nepremicnine_get():   
+def nepremicnine_get():
+
     return template('nepremicnine.html')
 #=========================================================
 
@@ -58,6 +63,15 @@ def prijava_post():
     geslo = request.forms.get('geslo')
     if check(uime, geslo):
         return template('uporabnik.html')
+
+
+#=========================================================
+
+
+# priklopimo se na bazo
+baza = psycopg2.connect(database=db, host=host, user=user, password=password)
+baza.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT) # onemogočimo transakcije
+cur = baza.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 
 #=========================================================

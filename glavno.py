@@ -26,7 +26,7 @@ def index():
 
 @get('/nepremicnine/')
 def nepremicnine_get(): 
-    cur = baza.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cur = baza.cursor()
     nepremicnine = cur.execute("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija, regija FROM nepremicnine")
     return template('nepremicnine.html', nepremicnine=nepremicnine)
 #=========================================================

@@ -83,6 +83,3 @@ def popravi_zapisi(seznam):
 
 nepremicnine = naredi_seznam_nepremicnin(st_datotek, regije, vzorec)
 popravi_zapisi(nepremicnine)
-
-
-#kr nekaj bla bla

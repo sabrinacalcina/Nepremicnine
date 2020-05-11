@@ -31,7 +31,7 @@ def zacetna_get():
 
 @get('/nepremicnine/')
 def nepremicnine_get(): 
-    cur.execute("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija, regija FROM nepremicnine")
+    cur.execute("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id FROM nepremicnine")
     return template('nepremicnine.html', nepremicnine=cur)
 #=========================================================
 

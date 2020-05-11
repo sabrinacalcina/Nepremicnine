@@ -23,8 +23,8 @@ CREATE TABLE nepremicnine (
   zemljisce text, --tu more bit real
   velikost real NOT NULL,
   cena real NOT NULL,
-  agencija integer REFERENCES agencije(id),
-  regija integer REFERENCES regije(id)
+  agencija_id integer REFERENCES agencije(id),
+  regija_id integer REFERENCES regije(id)
 );
 
 CREATE TABLE uporabniki(
@@ -52,3 +52,7 @@ GRANT ALL ON SCHEMA public TO timotejg;
 GRANT ALL ON ALL TABLES IN SCHEMA public TO timotejg;
 GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO timotejg;
 
+GRANT ALL ON DATABASE sem2020_domenfb TO javnost;
+GRANT ALL ON SCHEMA public TO javnost;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO javnost;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO javnost;

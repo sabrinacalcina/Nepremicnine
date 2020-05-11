@@ -24,25 +24,27 @@ def index():
     return template('zacetna_stran.html')
 #=========================================================
 
+@get('/zacetna_stran/')
+def zacetna_get():  
+    return template('zacetna_stran.html')
+#=========================================================
+
 @get('/nepremicnine/')
 def nepremicnine_get(): 
     cur.execute("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija, regija FROM nepremicnine")
     return template('nepremicnine.html', nepremicnine=cur)
 #=========================================================
 
-@get('/zacetna_stran/')
-def zacetna_get():  
-    return template('zacetna_stran.html')
-#=========================================================
-
 @get('/agencije/')
 def agencije_get():
-    return template('agencije.html')
+    cur.execute("SELECT agencija FROM agencije")
+    return template('agencije.html', agencije=cur)
 #=========================================================
 
 @get('/regije/')
 def regije_get():
-    return template('regije.html')
+    cur.execute("SELECT regija FROM regije")
+    return template('regije.html', regije=cur)
 #=========================================================
 
 @get('/registracija/')

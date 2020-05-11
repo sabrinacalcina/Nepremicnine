@@ -2,7 +2,12 @@ import definicije
 from bottle import *
 import requests
 
+<<<<<<< HEAD
 from auth import *
+=======
+# uvozimo ustrezne podatke za povezavo
+import auth_public 
+>>>>>>> 7a63bfdd55082a7a1d14b86fe68ff3a51171152b
 from auth_public import *
 
 import psycopg2, psycopg2.extensions, psycopg2.extras
@@ -24,10 +29,16 @@ def index():
 #=========================================================
 
 @get('/nepremicnine/')
+<<<<<<< HEAD
 def nepremicnine_get(): 
     cur = baza.cursor()
     nepremicnine = cur.execute("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija, regija FROM nepremicnine")
     return template('nepremicnine.html', nepremicnine=nepremicnine)
+=======
+def nepremicnine_get():
+
+    return template('nepremicnine.html')
+>>>>>>> 7a63bfdd55082a7a1d14b86fe68ff3a51171152b
 #=========================================================
 
 @get('/zacetna_stran/')
@@ -69,6 +80,15 @@ def prijava_post():
 baza = psycopg2.connect(database=db, host=host, user=user, password=password)
 baza.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
 cur = baza.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+#=========================================================
+
+
+# priklopimo se na bazo
+baza = psycopg2.connect(database=db, host=host, user=user, password=password)
+baza.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT) # onemogočimo transakcije
+cur = baza.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
 
 #=========================================================
 

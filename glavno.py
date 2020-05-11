@@ -2,6 +2,9 @@ import definicije
 from bottle import *
 import requests
 
+from auth import *
+from auth_public import *
+
 import psycopg2, psycopg2.extensions, psycopg2.extras
 psycopg2.extensions.register_type(psycopg2.extensions.UNICODE) # se znebimo problemov s sumniki
 
@@ -21,12 +24,14 @@ def index():
 #=========================================================
 
 @get('/nepremicnine/')
-def nepremicnine_get():   
-    return template('nepremicnine.html')
+def nepremicnine_get(): 
+    cur = baza.cursor()
+    nepremicnine = cur.execute("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija, regija FROM nepremicnine")
+    return template('nepremicnine.html', nepremicnine=nepremicnine)
 #=========================================================
 
 @get('/zacetna_stran/')
-def zacetna_get():   
+def zacetna_get():  
     return template('zacetna_stran.html')
 #=========================================================
 
@@ -43,7 +48,6 @@ def regije_get():
 @get('/registracija/')
 def registracija_get():
     return template('registracija.html')
-
 #=========================================================
 def check(uime, geslo):
     return True
@@ -59,6 +63,12 @@ def prijava_post():
     if check(uime, geslo):
         return template('uporabnik.html')
 
+#=========================================================
+
+# priklopimo se na bazo
+baza = psycopg2.connect(database=db, host=host, user=user, password=password)
+baza.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
+cur = baza.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 #=========================================================
 

@@ -26,7 +26,7 @@ def index():
 
 @get('/nepremicnine/')
 def nepremicnine_get(): 
-    cur = baza.cursor()
+    cur = baza.cursor(cursor_factory=psycopg2.extras.DictCursor)
     nepremicnine = cur.execute("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija, regija FROM nepremicnine")
     return template('nepremicnine.html', nepremicnine=nepremicnine)
 #=========================================================
@@ -70,15 +70,6 @@ def prijava_post():
 baza = psycopg2.connect(database=db, host=host, user=user, password=password)
 baza.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
 cur = baza.cursor(cursor_factory=psycopg2.extras.DictCursor)
-
-#=========================================================
-
-
-# priklopimo se na bazo
-baza = psycopg2.connect(database=db, host=host, user=user, password=password)
-baza.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT) # onemogočimo transakcije
-cur = baza.cursor(cursor_factory=psycopg2.extras.DictCursor)
-
 
 #=========================================================
 

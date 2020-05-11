@@ -23,8 +23,8 @@ CREATE TABLE nepremicnine (
   zemljisce text, --tu more bit real
   velikost real NOT NULL,
   cena real NOT NULL,
-  agencija_id integer REFERENCES agencije(id),
-  regija_id integer REFERENCES regije(id)
+  agencija integer REFERENCES agencije(id),
+  regija integer REFERENCES regije(id)
 );
 
 CREATE TABLE uporabniki(

@@ -62,13 +62,14 @@ def prijava_post():
 
 #=========================================================
 
-@route("/static/<filename:path>")
-def static(filename):
-    """Splošna funkcija, ki servira vse statične datoteke iz naslova
-       /static/..."""
-    static_dir = 'static'
-    return static_file(filename, root=static_dir)
+# @route("/static/<filename:path>")
+# def static(filename):
+#    """Splošna funkcija, ki servira vse statične datoteke iz naslova
+#       /static/..."""
+#    static_dir = 'static'
+#    return static_file(filename, root=static_dir)
 
+print('halooooo')
 run(host='localhost', port=8080, reloader=True)
 
 

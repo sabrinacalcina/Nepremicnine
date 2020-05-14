@@ -26,7 +26,7 @@ def index():
 
 @get('/zacetna_stran/')
 def zacetna_get():  
-    return template('zacetna_stran.html')
+    return redirect('/')
 #=========================================================
 
 @get('/nepremicnine/')

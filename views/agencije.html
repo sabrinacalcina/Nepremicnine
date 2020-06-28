@@ -5,10 +5,10 @@
     <th>Agencija</th>
 </tr>
 
-%for agencija, in agencije:
+%for id, agencija, in agencije:
     <tr>
-        <th>{{agencija}}</th>
-    </tr>
+        <th><a href="{{ROOT}}agencije/{{id}}">{{agencija}}</th>
+        </tr>
 %end
 </table>
 

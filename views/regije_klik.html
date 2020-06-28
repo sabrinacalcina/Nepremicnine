@@ -1,0 +1,29 @@
+% rebase('base.html', ROOT=ROOT)
+
+
+<table cellpadding="0" cellspacing="0" border="1">
+    <tr>
+        <th>Ime</th>
+        <th>Vrsta</th>
+        <th>Opis</th>
+        <th>Leto izgradnje</th>
+        <th>Zemljišče</th>
+        <th>Velikost</th>
+        <th>Cena</th>
+        <th>AgencijaID</th>
+    </tr>
+    
+    %for (ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id) in nepremicnine:
+        <tr>
+            <th>{{ime}}</th>
+            <th>{{vrsta}}</th>
+            <th>{{opis}}</th>
+            <th>{{leto_izgradnje}}</th>
+            <th>{{zemljisce}}</th>
+            <th>{{velikost}}</th>
+            <th>{{cena}}</th>
+            <th><a href="{{ROOT}}agencije/{{agencija_id}}">{{agencija_id}}</th>
+            </tr>
+    %end
+    
+    </table>

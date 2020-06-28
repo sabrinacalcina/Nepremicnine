@@ -1,13 +1,13 @@
-% rebase('base.html')
+% rebase('base.html', ROOT=ROOT)
 
 <table cellpadding="0" cellspacing="0" border="1">
     <tr>
         <th>Regija</th>
     </tr>
     
-    %for regija, in regije:
+    %for id,regija, in regije:
         <tr>
-            <th>{{regija}}</th>
+            <th><a href="{{ROOT}}regije/{{id}}">{{regija}}</th>
         </tr>
     %end
     </table>

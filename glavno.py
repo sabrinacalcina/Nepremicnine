@@ -141,14 +141,14 @@ def registracija():
         print(7)
         #podatki["geslo"] = hashGesla(podatki["pass1"])
         ukaz = """INSERT INTO uporabniki (ime,priimek,email,uporabnisko_ime,geslo)
-                  VALUES((%(ime)s), (%(priimek)s), (%(email)s),(%(uporabnisko_ime)s),(%(psw)s))
+                  VALUES((%(ime)s), (%(priimek)s), (%(email)s),(%(uporabnisko_ime)s),(%(psw)s)) returning id
                   """
         cur.execute(ukaz, podatki)
-        #uid = cur.fetchone()[0]
+        uid = cur.fetchone()[0]
         #response.set_cookie("id",uid, path='/', secret = kodiranje)
-        #string = '{0}uporabnik/{1}/'.format(ROOT,uid)
-        #redirect(string)
-        return rtemplate('uporabnik.html')
+        string = '{0}uporabnik/{1}/'.format(ROOT,uid)
+        redirect(string)
+        
     else:
         print(8)
         return rtemplate('registracija.html', stanje = stanje, napaka = 4, **podatki)
@@ -175,7 +175,10 @@ def prijava_post():
     uime = request.forms.get('uime')
     geslo = request.forms.get('geslo')
     if check(uime, geslo):
-        return rtemplate('uporabnik.html')
+        ukaz = 'SELECT id FROM uporabniki WHERE uporabnisko_ime = (%s)'
+        cur.execute(ukaz, (uime, ))
+        podatek = cur.fetchone()[0]
+        redirect('{0}uporabnik/{1}/'.format(ROOT, podatek))
     else:
         redirect('{0}prijava/'.format(ROOT))
 
@@ -183,7 +186,14 @@ def prijava_post():
 
 
 
-
+@get('/uporabnik/<stanje>/')
+def uporabnik(stanje):
+    ukaz = 'SELECT ime, priimek FROM uporabniki WHERE id = (%s)'
+    cur.execute(ukaz, (stanje, ))
+    podatki = cur.fetchone()
+    ime = podatki[0]
+    priimek = podatki[1]
+    return rtemplate('uporabnik.html', ime = ime, priimek = priimek)
 
 
 #=========================================================

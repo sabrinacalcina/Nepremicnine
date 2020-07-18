@@ -107,7 +107,7 @@ def register():
     if stanje !=0:
         print(2)
         redirect('{0}zacetna_stran/'.format(ROOT))
-    polja_registracija = ("ime", "priimek", "mail", "psw", "geslo2")
+    polja_registracija = ("ime", "priimek", "email", "psw", "psw2", "uporabnisko_ime")
     podatki = {polje: "" for polje in polja_registracija}
     print(3)    
     return rtemplate('registracija.html', stanje=stanje, napaka=0, **podatki)
@@ -117,7 +117,7 @@ def register():
 def registracija():
     stanje = id_uporabnik()
     print(4)
-    polja_registracija = ("ime", "priimek", "email", "uporabnisko_ime", "psw", "psw-repeat")
+    polja_registracija = ("ime", "priimek", "email", "uporabnisko_ime", "psw", "psw2")
     podatki = {polje: "" for polje in polja_registracija}
     podatki = {polje: getattr(request.forms, polje) for polje in polja_registracija}
 
@@ -126,26 +126,29 @@ def registracija():
     email = podatki.get('email')
     uporabnisko_ime = podatki.get('uporabnisko_ime')
     geslo1 = podatki.get('psw')
-    geslo2 = podatki.get('psw-repeat')
+    geslo2 = podatki.get('psw2')
 
-    if ime == '' or priimek == '' or email == '' or geslo1 == '' or geslo2 == '':
+
+    if ime == '' or priimek == '' or email == '' or uporabnisko_ime == '' or geslo1 == '' or geslo2 == '':
         print(5)
         return rtemplate('registracija.html', stanje= stanje, napaka = 1, **podatki)
 
-    if len(geslo1) < 6:
+    if len(geslo1) < 4:
         print(6)
         return rtemplate('registracija.html', stanje = stanje, napaka =5, **podatki)
-    if psw == psw-repeat:
+
+    if str(geslo1) == str(geslo2):
         print(7)
         #podatki["geslo"] = hashGesla(podatki["pass1"])
-        ukaz = """INSERT INTO novi_uporabniki (ime,priimek,mail,geslo1)
-                  VALUES((%(ime)s), (%(priimek)s), (%(mail)s),(%(geslo1)s))
-                  RETURNING id"""
+        ukaz = """INSERT INTO uporabniki (ime,priimek,email,uporabnisko_ime,geslo)
+                  VALUES((%(ime)s), (%(priimek)s), (%(email)s),(%(uporabnisko_ime)s),(%(psw)s))
+                  """
         cur.execute(ukaz, podatki)
-        uid = cur.fetchone()[0]
+        #uid = cur.fetchone()[0]
         #response.set_cookie("id",uid, path='/', secret = kodiranje)
-        string = '{0}uporabnik/{1}/'.format(ROOT,uid)
-        redirect(string)
+        #string = '{0}uporabnik/{1}/'.format(ROOT,uid)
+        #redirect(string)
+        return rtemplate('uporabnik.html')
     else:
         print(8)
         return rtemplate('registracija.html', stanje = stanje, napaka = 4, **podatki)
@@ -175,6 +178,12 @@ def prijava_post():
         return rtemplate('uporabnik.html')
     else:
         redirect('{0}prijava/'.format(ROOT))
+
+
+
+
+
+
 
 
 #=========================================================

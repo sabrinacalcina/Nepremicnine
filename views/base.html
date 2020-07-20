@@ -13,8 +13,14 @@
         <a href="{{ROOT}}regije/">Regije</a>
       </div>
       <div class="header-right">
+        %if stanje == 0:
         <a href="{{ROOT}}prijava/" >Prijava</a>
         <a href="{{ROOT}}registracija/"style="background-color: rgb(60,179,113);">Registracija</a>
+        %end
+        %if stanje != 0:
+        <a href="{{ROOT}}uporabnik/{{stanje}}/" >Moj profil</a>
+        <a href="{{ROOT}}odjava/"style="background-color: rgb(60,179,113);">Odjava</a>
+        %end
       </div>
     </div>
     </head>

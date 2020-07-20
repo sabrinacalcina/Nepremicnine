@@ -1,6 +1,8 @@
 import definicije
 from bottle import *
 import requests
+import hashlib
+
 
 # uvozimo ustrezne podatke za povezavo
 import auth_public 
@@ -48,7 +50,8 @@ def static(filename):
 
 @get('/')
 def index():
-    return rtemplate('zacetna_stran.html')
+    stanje = id_uporabnik()
+    return rtemplate('zacetna_stran.html', stanje = stanje)
 #=========================================================
 
 @get('/zacetna_stran/')
@@ -59,39 +62,44 @@ def zacetna_get():
 
 @get('/nepremicnine/')
 def nepremicnine_get(): 
+    stanje = id_uporabnik()
     cur.execute("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id FROM nepremicnine")
-    return rtemplate('nepremicnine.html', nepremicnine=cur)
+    return rtemplate('nepremicnine.html', nepremicnine=cur, stanje = stanje)
 
 #=========================================================
 
 @get('/agencije/')
 def agencije_get():
+    stanje = id_uporabnik()
     cur.execute("SELECT * FROM agencije")
-    return rtemplate('agencije.html', agencije=cur)
+    return rtemplate('agencije.html', agencije=cur, stanje = stanje)
 
 #=========================================================
 
 @get('/agencije/<oznaka>')
 def agencije(oznaka):
+    stanje = id_uporabnik()
     ukaz = ("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, regija_id FROM nepremicnine WHERE agencija_id = (%s)")
     cur.execute(ukaz,(oznaka, ))
-    return rtemplate('agencije_klik.html', nepremicnine=cur, oznaka=oznaka)
+    return rtemplate('agencije_klik.html', nepremicnine=cur, oznaka=oznaka, stanje = stanje)
 
 
 #=========================================================
 
 @get('/regije/')
 def regije_get():
+    stanje = id_uporabnik()
     cur.execute("SELECT * FROM regije")
-    return rtemplate('regije.html', regije=cur)
+    return rtemplate('regije.html', regije=cur, stanje = stanje)
 
 #=========================================================
 
 @get('/regije/<oznaka>')
 def regije(oznaka):
+    stanje = id_uporabnik()
     ukaz = ("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id FROM nepremicnine WHERE regija_id = (%s)")
     cur.execute(ukaz,(oznaka, ))
-    return rtemplate('regije_klik.html', nepremicnine=cur, oznaka=oznaka)
+    return rtemplate('regije_klik.html', nepremicnine=cur, oznaka=oznaka, stanje = stanje)
 
 #=========================================================
 #REGISTRACIJA
@@ -139,13 +147,13 @@ def registracija():
 
     if str(geslo1) == str(geslo2):
         print(7)
-        #podatki["geslo"] = hashGesla(podatki["pass1"])
+        podatki["geslo"] = hashGesla(podatki["psw"])
         ukaz = """INSERT INTO uporabniki (ime,priimek,email,uporabnisko_ime,geslo)
-                  VALUES((%(ime)s), (%(priimek)s), (%(email)s),(%(uporabnisko_ime)s),(%(psw)s)) returning id
+                  VALUES((%(ime)s), (%(priimek)s), (%(email)s),(%(uporabnisko_ime)s),(%(geslo)s)) returning id
                   """
         cur.execute(ukaz, podatki)
         uid = cur.fetchone()[0]
-        #response.set_cookie("id",uid, path='/', secret = kodiranje)
+        response.set_cookie("id",uid, path='/', secret = kodiranje)
         string = '{0}uporabnik/{1}/'.format(ROOT,uid)
         redirect(string)
         
@@ -168,23 +176,46 @@ def check(uime, geslo):
 
 @get('/prijava/')
 def prijava_get():
-    return rtemplate('prijava.html')
+    stanje = id_uporabnik()
+    if stanje != 0:
+        redirect('{0}zacetna_stran/'.format(ROOT))
+    return rtemplate('prijava.html', stanje = stanje)
 
 @post('/prijava/')
 def prijava_post():
     uime = request.forms.get('uime')
     geslo = request.forms.get('geslo')
-    if check(uime, geslo):
+    if preveri_uporabnika(uime, geslo):
         ukaz = 'SELECT id FROM uporabniki WHERE uporabnisko_ime = (%s)'
         cur.execute(ukaz, (uime, ))
         podatek = cur.fetchone()[0]
+        response.set_cookie("id",podatek, path='/', secret = kodiranje)
         redirect('{0}uporabnik/{1}/'.format(ROOT, podatek))
     else:
         redirect('{0}prijava/'.format(ROOT))
 
 
+#=========================================================
+#HASH GESLO
+
+def preveri_uporabnika(ime,geslo):
+    ukaz = ("SELECT geslo FROM uporabniki WHERE uporabnisko_ime = (%s)")
+    cur.execute(ukaz,(ime, ))
+    for psw in cur:
+        if psw[0] == hashGesla(geslo):
+            return True
+        else:
+            return False
+            
+
+def hashGesla(s):
+    m = hashlib.sha256()
+    m.update(s.encode("utf-8"))
+    return m.hexdigest()
 
 
+#=========================================================
+#POZNA UPORABNIKA
 
 @get('/uporabnik/<stanje>/')
 def uporabnik(stanje):
@@ -193,8 +224,15 @@ def uporabnik(stanje):
     podatki = cur.fetchone()
     ime = podatki[0]
     priimek = podatki[1]
-    return rtemplate('uporabnik.html', ime = ime, priimek = priimek)
+    return rtemplate('uporabnik.html', ime = ime, priimek = priimek, stanje = stanje)
 
+#=========================================================
+#ODJAVA
+
+@get('/odjava/')
+def odjava():
+    response.delete_cookie("id", path='/')
+    redirect('{0}zacetna_stran/'.format(ROOT))    
 
 #=========================================================
 

@@ -64,7 +64,8 @@ def zacetna_get():
 def nepremicnine_get(): 
     stanje = id_uporabnik()
     cur.execute("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id FROM nepremicnine")
-    return rtemplate('nepremicnine.html', nepremicnine=cur, stanje = stanje)
+    podatki = cur.fetchall()
+    return rtemplate('nepremicnine.html', nepremicnine=podatki, stanje = stanje)
 
 #=========================================================
 
@@ -72,7 +73,8 @@ def nepremicnine_get():
 def agencije_get():
     stanje = id_uporabnik()
     cur.execute("SELECT * FROM agencije")
-    return rtemplate('agencije.html', agencije=cur, stanje = stanje)
+    podatki = cur.fetchall()
+    return rtemplate('agencije.html', agencije=podatki, stanje = stanje)
 
 #=========================================================
 
@@ -81,7 +83,8 @@ def agencije(oznaka):
     stanje = id_uporabnik()
     ukaz = ("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, regija_id FROM nepremicnine WHERE agencija_id = (%s)")
     cur.execute(ukaz,(oznaka, ))
-    return rtemplate('agencije_klik.html', nepremicnine=cur, oznaka=oznaka, stanje = stanje)
+    cura = cur.fetchall()
+    return rtemplate('agencije_klik.html', nepremicnine=cura, oznaka=oznaka, stanje = stanje)
 
 
 #=========================================================
@@ -90,7 +93,8 @@ def agencije(oznaka):
 def regije_get():
     stanje = id_uporabnik()
     cur.execute("SELECT * FROM regije")
-    return rtemplate('regije.html', regije=cur, stanje = stanje)
+    cura = cur.fethcall()
+    return rtemplate('regije.html', regije=cura, stanje = stanje)
 
 #=========================================================
 
@@ -99,7 +103,8 @@ def regije(oznaka):
     stanje = id_uporabnik()
     ukaz = ("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id FROM nepremicnine WHERE regija_id = (%s)")
     cur.execute(ukaz,(oznaka, ))
-    return rtemplate('regije_klik.html', nepremicnine=cur, oznaka=oznaka, stanje = stanje)
+    cura = cur.fetchall()
+    return rtemplate('regije_klik.html', nepremicnine=cura, oznaka=oznaka, stanje = stanje)
 
 #=========================================================
 #REGISTRACIJA
@@ -237,13 +242,13 @@ def odjava():
 #=========================================================
 
 # priklopimo se na bazo
-baza = psycopg2.connect(database=db, host=host, user=user, password=password)
+baza = psycopg2.connect(database=db, host=host, user=user, password=password, port = DB_PORT)
 baza.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
 cur = baza.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 #=========================================================
 
-run(host='localhost', port=8080, reloader=True)
+run(host='localhost', port=SERVER_PORT, reloader=RELOADER)
 
 
 

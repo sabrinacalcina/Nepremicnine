@@ -12,6 +12,9 @@
     <th>Cena</th>
     <th>AgencijaID</th>
     <th>RegijaID</th>
+    %if stanje != 0:
+    <th>Dodaj med priljubljene</th>
+    %end
 </tr>
 
 %for (ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id) in nepremicnine:
@@ -25,6 +28,9 @@
         <th>{{cena}}</th>
         <th><a href="{{ROOT}}agencije/{{agencija_id}}">{{agencija_id}}</th>
         <th><a href="{{ROOT}}regije/{{regija_id}}">{{regija_id}}</th>
+        %if stanje != 0:
+        <th>Dodaj</th>
+        %end
         </tr>
 %end
 

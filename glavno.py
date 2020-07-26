@@ -69,6 +69,16 @@ def nepremicnine_get():
 
 #=========================================================
 
+@get('/dodaj_nepremicnine/')
+def dodaj_nepremicnine(): 
+    stanje = id_uporabnik()
+    print(stanje)
+    cur.execute("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id FROM nepremicnine")
+    podatki = cur.fetchall()
+    return rtemplate('dodaj_nepremicnine.html', nepremicnine=podatki, stanje = stanje)
+
+#=========================================================
+
 @get('/agencije/')
 def agencije_get():
     stanje = id_uporabnik()
@@ -93,7 +103,7 @@ def agencije(oznaka):
 def regije_get():
     stanje = id_uporabnik()
     cur.execute("SELECT * FROM regije")
-    cura = cur.fethcall()
+    cura = cur.fetchall()
     return rtemplate('regije.html', regije=cura, stanje = stanje)
 
 #=========================================================
@@ -107,29 +117,31 @@ def regije(oznaka):
     return rtemplate('regije_klik.html', nepremicnine=cura, oznaka=oznaka, stanje = stanje)
 
 #=========================================================
-#REGISTRACIJA
 
-#@get('/registracija/')
-#def registracija_get():
-#    return rtemplate('registracija.html')
+@get('/priljubljene/')
+def priljubljene():
+    stanje = id_uporabnik()
+    cur.execute("SELECT * FROM regije")
+    cura = cur.fetchall()
+    #dokončaj!!!
+    return rtemplate('priljubljene.html', regije=cura, stanje = stanje)
+
+#=========================================================
+#REGISTRACIJA
 
 @get('/registracija/')
 def register():
-    print(1)
     stanje = id_uporabnik()
     if stanje !=0:
-        print(2)
         redirect('{0}zacetna_stran/'.format(ROOT))
     polja_registracija = ("ime", "priimek", "email", "psw", "psw2", "uporabnisko_ime")
-    podatki = {polje: "" for polje in polja_registracija}
-    print(3)    
+    podatki = {polje: "" for polje in polja_registracija} 
     return rtemplate('registracija.html', stanje=stanje, napaka=0, **podatki)
 
 
 @post('/registracija/')
 def registracija():
     stanje = id_uporabnik()
-    print(4)
     polja_registracija = ("ime", "priimek", "email", "uporabnisko_ime", "psw", "psw2")
     podatki = {polje: "" for polje in polja_registracija}
     podatki = {polje: getattr(request.forms, polje) for polje in polja_registracija}
@@ -143,11 +155,9 @@ def registracija():
 
 
     if ime == '' or priimek == '' or email == '' or uporabnisko_ime == '' or geslo1 == '' or geslo2 == '':
-        print(5)
         return rtemplate('registracija.html', stanje= stanje, napaka = 1, **podatki)
 
     if len(geslo1) < 4:
-        print(6)
         return rtemplate('registracija.html', stanje = stanje, napaka =5, **podatki)
 
     if str(geslo1) == str(geslo2):

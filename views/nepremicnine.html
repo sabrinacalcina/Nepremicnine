@@ -17,7 +17,7 @@
     %end
 </tr>
 
-%for (ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id) in nepremicnine:
+%for (id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id) in nepremicnine:
     <tr>
         <th>{{ime}}</th>
         <th>{{vrsta}}</th>
@@ -29,7 +29,7 @@
         <th><a href="{{ROOT}}agencije/{{agencija_id}}">{{agencija_id}}</th>
         <th><a href="{{ROOT}}regije/{{regija_id}}">{{regija_id}}</th>
         %if stanje != 0:
-        <th>Dodaj</th>
+        <th><a class='button' href="{{ROOT}}nepremicnine/{{id}}">Dodaj</a></th>
         %end
         </tr>
 %end

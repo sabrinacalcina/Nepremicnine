@@ -6,7 +6,19 @@
         <div class="h3 mb-3 font-weight-normal">
           <h1>Registriraj se</h1>
           <p>Izpolnite naslednja polja in si ustvari uporabniški račun.</p>
-          <p>TREBA JE POPRAVIT DA TI VRŽE KERA NAPAKA SE ZGODI</p>
+
+          %if napaka == 1:
+          <p style="color:red"> Izpolnite vsa polja.</p>
+          %end
+          %if napaka == 2:
+          <p style="color:red"> Ta elektoronski naslov je že registriran. </p>
+          %end
+          %if napaka == 3:
+          <p style="color:red"> Gesli se ne ujemata.</p>      
+          %end
+          %if napaka == 4:
+          <p style="color:red">Geslo je prekratko.</p>     
+          %end
 
           <label for="name"><b>Ime: </b></label>
           <input type="text" class="form-control" placeholder="Vnesite svoje ime" name="ime" value='{{ime}}'>
@@ -33,6 +45,6 @@
           <div class="clearfix">
             <button class="btn btn-lg btn-primary btn-block" type="submit">Registriraj me</button>
           </div>
-        </div>
+        </div>           
       </form>
     </div>

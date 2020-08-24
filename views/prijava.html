@@ -2,6 +2,11 @@
 
 <div align="center">
 <form action='{{ROOT}}prijava/' class="form-signin text-center" method='post' style="width: 30%;margin-top: 5cm">
+
+    %if napaka == 1:
+    <p style="color:red">Napačen elektronski naslov ali geslo, poiskusite znova.</p>
+    %end  
+
     <div class="h3 mb-3 font-weight-normal">
     <span>Uporabniško ime:</span><input name='uime' type='text' />
     <br>
@@ -9,5 +14,6 @@
     <br>
     <input value='Prijava' type='submit' />
     </div>
+
 </form>
 </div>

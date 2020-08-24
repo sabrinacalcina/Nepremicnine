@@ -1,0 +1,52 @@
+% rebase('base.html', ROOT = ROOT, stanje=stanje)
+
+
+<h2>Potrditev za novo priljubljeno nepremicnino</h2>
+
+<table cellpadding="0" cellspacing="0" border="1">
+%for ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id in podatki:
+
+    <tr>
+        <th>Ime</th>
+        <th>{{ime}}</th>
+    </tr>
+    <tr>
+        <th>Vrsta</th>
+        <th>{{vrsta}}</th>
+    </tr>
+    <tr>
+        <th>Opis</th>
+        <th>{{opis}}</th>
+    </tr>
+    <tr>
+        <th>Leto izgradnje</th>
+        <th>{{leto_izgradnje}}</th>
+    </tr>
+    <tr>
+        <th>Zemljišče</th>
+        <th>{{zemljisce}}</th>
+    </tr>
+    <tr>
+        <th>Velikost</th>
+        <th>{{velikost}}</th>
+    </tr>
+    <tr>
+        <th>Cena</th>
+        <th>{{cena}}</th>
+    </tr>
+    <tr>
+        <th>AgencijaID</th>
+        <th>{{agencija_id}}</th>
+    </tr>
+    <tr>
+        <th>RegijaID</th>
+        <th>{{regija_id}}</th>
+    </tr>
+    </table>
+%end
+<form action='{{ROOT}}nepremicnine/{{id}}' class="form-signin text-center" method='post' style="width: 30%;margin-top: 5cm">
+    <div class="clearfix">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Dodaj</button>
+    </div>
+
+</form>

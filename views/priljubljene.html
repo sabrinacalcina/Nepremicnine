@@ -1,3 +1,40 @@
 % rebase('base.html', ROOT = ROOT, stanje=stanje)
 
-<b>Tu bo tabela priljubljenih nepremičnin.</b>
+<b>Vaše priljubljene nepremičnine {{ime}} {{priimek}}:</b>
+
+%if nepremicnine != []:
+<table cellpadding="0" cellspacing="0" border="1">
+<tr>
+    <th>Ime</th>
+    <th>Vrsta</th>
+    <th>Opis</th>
+    <th>Leto izgradnje</th>
+    <th>Zemljišče</th>
+    <th>Velikost</th>
+    <th>Cena</th>
+    <th>AgencijaID</th>
+    <th>RegijaID</th>
+    <th>Uporabnik</th>
+</tr>
+
+%for (ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id) in nepremicnine:
+    <tr>
+        <th>{{ime}}</th>
+        <th>{{vrsta}}</th>
+        <th>{{opis}}</th>
+        <th>{{leto_izgradnje}}</th>
+        <th>{{zemljisce}}</th>
+        <th>{{velikost}}</th>
+        <th>{{cena}}</th>
+        <th><a href="{{ROOT}}agencije/{{agencija_id}}">{{agencija_id}}</th>
+        <th><a href="{{ROOT}}regije/{{regija_id}}">{{regija_id}}</th>
+        <th>ime</th>
+        </tr>
+%end
+%end
+%if nepremicnine == []:
+<h2>Nimate še nobenih priljubljenih nepremičnin.</h2>
+</table>
+
+
+

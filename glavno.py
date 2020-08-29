@@ -104,7 +104,7 @@ def regije_get():
 @get('/regije/<oznaka>')
 def regije(oznaka):
     stanje = id_uporabnik()
-    cur.execute("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija FROM (nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id= agencije.id) WHERE regija_id = (%s)", (oznaka))
+    cur.execute("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija FROM (nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id= agencije.id) WHERE regija_id = (%s)", (oznaka, ))
     nepremicnine = cur.fetchall()
     return rtemplate('regije_klik.html', nepremicnine=nepremicnine, oznaka=oznaka, stanje = stanje)
 

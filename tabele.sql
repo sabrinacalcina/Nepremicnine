@@ -60,3 +60,4 @@ GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO timotejg;
 --GRANT SELECT ON DATABASE sem2020_domenfb TO javnost;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO javnost;
 GRANT INSERT ON ALL TABLES IN SCHEMA public TO javnost;
+GRANT DELETE ON  "public"."priljubljene" TO javnost;

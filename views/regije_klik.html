@@ -10,10 +10,10 @@
         <th>Zemljišče</th>
         <th>Velikost</th>
         <th>Cena</th>
-        <th>AgencijaID</th>
+        <th>Agencija</th>
     </tr>
     
-    %for (ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id) in nepremicnine:
+    %for (ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija) in nepremicnine:
         <tr>
             <th>{{ime}}</th>
             <th>{{vrsta}}</th>
@@ -22,7 +22,7 @@
             <th>{{zemljisce}}</th>
             <th>{{velikost}}</th>
             <th>{{cena}}</th>
-            <th><a href="{{ROOT}}agencije/{{agencija_id}}">{{agencija_id}}</th>
+            <th><a href="{{ROOT}}agencije/{{agencija}}">{{agencija}}</th>
             </tr>
     %end
     

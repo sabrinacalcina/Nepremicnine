@@ -14,10 +14,10 @@
     <th>Cena</th>
     <th>AgencijaID</th>
     <th>RegijaID</th>
-    <th>Uporabnik</th>
+    <th>Odstrani nepremičnino</th>
 </tr>
 
-%for (ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id) in nepremicnine:
+%for (id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija) in nepremicnine:
     <tr>
         <th>{{ime}}</th>
         <th>{{vrsta}}</th>
@@ -26,9 +26,10 @@
         <th>{{zemljisce}}</th>
         <th>{{velikost}}</th>
         <th>{{cena}}</th>
-        <th><a href="{{ROOT}}agencije/{{agencija_id}}">{{agencija_id}}</th>
-        <th><a href="{{ROOT}}regije/{{regija_id}}">{{regija_id}}</th>
-        <th>ime</th>
+        <th><a href="{{ROOT}}agencije/{{agencija}}">{{agencija}}</th>
+        <th><a href="{{ROOT}}regije/{{regija}}">{{regija}}</th>
+        <form action='{{ROOT}}priljubljene/{{id}}' class="form-signin text-center" method='post' style="width: 30%;margin-top: 5cm">
+        <th><input value='Odstrani' type='submit' /></th>
         </tr>
 %end
 %end

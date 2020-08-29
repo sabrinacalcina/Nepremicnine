@@ -1,5 +1,46 @@
 % rebase('base.html', ROOT = ROOT, stanje=stanje)
 
-<b>Dodaj nepremičnine</b>
+<body class="text-center">
+    <div align="center">
+    <form action='{{ROOT}}dodaj_nepremicnine/' class="form-signin text-center" method="post" style="width: 30%;margin-top: 5cm">
+        <div class="h3 mb-3 font-weight-normal">
+          <h1>Dodaj nepremičnine, za prodajo/oddajo.</h1>
+          <p>Nepremičnine bodo vidne ostalim uporabnikom.</p>
+          <p>Izpolnite naslednja polja.</p>
 
-<b>Tu bo ena orodna vrstica kamor boš lahko vnesel svojo nepremičnino.</b>
+
+          <label for="ime"><b>Ime: </b></label>
+          <input type="text" class="form-control" placeholder="Vnesite ime vaše nepremičnine:" name="ime" value='{{ime}}'>
+          <br>
+          <label for="vrsta"><b>Vrsta: </b></label>
+          <input type="text" placeholder="Vnesite vrsto nepremičnine:" name="vrsta" value='{{vrsta}}'>
+          <br>
+          <label for="opis"><b>Opis: </b></label>
+          <input type="text" placeholder="Vnesite opis:" name="opis" value='{{opis}}'>
+          <br>
+          <label for="leto"><b>Leto izgradnje: </b></label>
+          <input type="text" class="form-control" placeholder="Vnesite leto izgradnje:" name="leto" value='{{leto}}'>
+          <br>
+          <label for="zemljisce"><b>Vnesite velikost zemljisca: </b></label>
+          <input type="text" placeholder="Vnesite velikost zemljišča:" name="zemljisce" value='{{zemljisce}}'>
+          <br>
+          <label for="velikost"><b>Vnesi velikost nepremičnine: </b></label>
+          <input type="text" placeholder="Vnesite velikost zemljisca:" name="velikost" value='{{velikost}}'>
+          <br>
+          <br>
+          <label for="cena"><b>Vnesi ceno nepremičnine: </b></label>
+          <input type="text" placeholder="Vnesite ceno nepremicnine:" name="cena" value='{{cena}}'>
+          <br>
+          <label for="agencija"><b>Vnesi ime agencije: </b></label>
+          <input type="text" placeholder="Vnesi ime agencije:" name="agencija" value='{{agencija}}'>
+          <br>
+          <label for="regija"><b>Vnesi ime regije: </b></label>
+          <input type="text" placeholder="Vnesite ime regije:" name="regija" value='{{regija}}'>
+          <br>
+      
+          <div class="clearfix">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Dodaj</button>
+          </div>
+        </div>           
+      </form>
+    </div>

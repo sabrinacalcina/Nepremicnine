@@ -64,15 +64,6 @@ def nepremicnine_get():
 
 #=========================================================
 
-@get('/dodaj_nepremicnine/')
-def dodaj_nepremicnine(): 
-    stanje = id_uporabnik()
-    cur.execute("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id FROM nepremicnine")
-    podatki = cur.fetchall()
-    return rtemplate('dodaj_nepremicnine.html', nepremicnine=podatki, stanje = stanje)
-
-#=========================================================
-
 @get('/agencije/')
 def agencije_get():
     stanje = id_uporabnik()
@@ -254,10 +245,10 @@ def uporabnik(stanje):
 @get('/nepremicnine/<oznaka>')
 def nepremicnina(oznaka):
     stanje = id_uporabnik()
-    cur.execute("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija FROM (((nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id = agencije.id) INNER JOIN regije ON nepremicnine.regija_id = regije.id) JOIN priljubljene ON nepremicnine.id = nepremicnina) WHERE nepremicnine.id = (%s)", (oznaka, ))
+    cur.execute("SELECT nepremicnine.id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija FROM ((nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id = agencije.id) INNER JOIN regije ON nepremicnine.regija_id = regije.id) WHERE nepremicnine.id = (%s)", (oznaka, ))
     #cur.execute('select ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id from nepremicnine where id = (%s)', (oznaka, ))
     podatki = cur.fetchall()
-    return rtemplate('potrditev.html', stanje = stanje, podatki = podatki, id=oznaka)
+    return rtemplate('potrditev.html', stanje = stanje, podatki = podatki, oznaka=oznaka)
 
 @post('/nepremicnine/<oznaka>')
 def potrditev(oznaka):
@@ -278,6 +269,7 @@ def odjava():
     redirect('{0}zacetna_stran/'.format(ROOT))    
 
 #=========================================================
+#za dodat nepremičnino-ne dela
 
 @get('/dodaj_nepremicnine/')
 def dodaj_nepremicnine():

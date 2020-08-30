@@ -58,7 +58,9 @@ def zacetna_get():
 @get('/nepremicnine/')
 def nepremicnine_get(): 
     stanje = id_uporabnik()
-    cur.execute("SELECT nepremicnine.id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija FROM ((nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id = agencije.id) INNER JOIN regije ON nepremicnine.regija_id = regije.id)")
+    cur.execute("""SELECT nepremicnine.id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija 
+                    FROM ((nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id = agencije.id) INNER JOIN regije 
+                    ON nepremicnine.regija_id = regije.id)""")
     nepremicnine = cur.fetchall()
     return rtemplate('nepremicnine.html', nepremicnine=nepremicnine, stanje = stanje)
 
@@ -76,7 +78,8 @@ def agencije_get():
 @get('/agencije/<oznaka>')
 def agencije(oznaka):
     stanje = id_uporabnik()
-    ukaz = ("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, regija FROM (nepremicnine INNER JOIN regije ON nepremicnine.regija_id = regije.id) WHERE agencija_id =(%s)")
+    ukaz = ("""SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, regija 
+                FROM (nepremicnine INNER JOIN regije ON nepremicnine.regija_id = regije.id) WHERE agencija_id =(%s)""")
     cur.execute(ukaz,(oznaka, ))
     cura = cur.fetchall()
     return rtemplate('agencije_klik.html', nepremicnine=cura, oznaka=oznaka, stanje = stanje)
@@ -95,7 +98,8 @@ def regije_get():
 @get('/regije/<oznaka>')
 def regije(oznaka):
     stanje = id_uporabnik()
-    cur.execute("SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija FROM (nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id= agencije.id) WHERE regija_id = (%s)", (oznaka, ))
+    cur.execute("""SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija 
+                    FROM (nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id= agencije.id) WHERE regija_id = (%s)""", (oznaka, ))
     nepremicnine = cur.fetchall()
     return rtemplate('regije_klik.html', nepremicnine=nepremicnine, oznaka=oznaka, stanje = stanje)
 
@@ -104,7 +108,10 @@ def regije(oznaka):
 @get('/priljubljene/')
 def priljubljene():
     stanje = id_uporabnik()
-    cur.execute("SELECT nepremicnine.id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija FROM (((nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id = agencije.id) INNER JOIN regije ON nepremicnine.regija_id = regije.id) JOIN priljubljene ON nepremicnine.id = nepremicnina) WHERE uporabnik = (%s)", (stanje, ))    
+    cur.execute("""SELECT nepremicnine.id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija
+                     FROM (((nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id = agencije.id) INNER JOIN regije 
+                     ON nepremicnine.regija_id = regije.id) JOIN priljubljene ON nepremicnine.id = nepremicnina) 
+                     WHERE uporabnik = (%s)""", (stanje, ))    
     nepremicnine = cur.fetchall()
     pogoj = 'SELECT ime, priimek FROM uporabniki WHERE id = (%s)'
     cur.execute(pogoj, (stanje, ))
@@ -116,7 +123,7 @@ def priljubljene():
 @post('/priljubljene/<oznaka>')
 def odstrani(oznaka):
     stanje = id_uporabnik()
-    ukaz = 'delete from priljubljene where uporabnik = (%s) and nepremicnina = (%s)'
+    ukaz = 'DELETE FROM priljubljene WHERE uporabnik = (%s) AND nepremicnina = (%s)'
     cur.execute(ukaz, (stanje, oznaka))
     redirect('{0}priljubljene/'.format(ROOT))
 #=========================================================
@@ -177,7 +184,7 @@ def registracija():
 #PRIJAVA
 
 def check(uime, geslo):
-    cur.execute('select geslo from uporabniki where uporabnisko_ime = (%s)',(uime, ))
+    cur.execute('SELECT geslo FROM uporabniki WHERE uporabnisko_ime = (%s)',(uime, ))
     try:
         podatek = cur.fetchone()[0]
         if podatek == geslo:
@@ -245,18 +252,19 @@ def uporabnik(stanje):
 @get('/nepremicnine/<oznaka>')
 def nepremicnina(oznaka):
     stanje = id_uporabnik()
-    cur.execute("SELECT nepremicnine.id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija FROM ((nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id = agencije.id) INNER JOIN regije ON nepremicnine.regija_id = regije.id) WHERE nepremicnine.id = (%s)", (oznaka, ))
-    #cur.execute('select ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id from nepremicnine where id = (%s)', (oznaka, ))
+    cur.execute("""SELECT nepremicnine.id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija
+                     FROM ((nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id = agencije.id) INNER JOIN regije 
+                     ON nepremicnine.regija_id = regije.id) WHERE nepremicnine.id = (%s)""", (oznaka, ))
     podatki = cur.fetchall()
     return rtemplate('potrditev.html', stanje = stanje, podatki = podatki, oznaka=oznaka)
 
 @post('/nepremicnine/<oznaka>')
 def potrditev(oznaka):
     stanje = id_uporabnik()
-    cur.execute('select * from priljubljene where uporabnik = (%s) and nepremicnina = (%s)',(stanje, oznaka, ))
+    cur.execute('SELECT * FROM priljubljene WHERE uporabnik = (%s) AND nepremicnina = (%s)',(stanje, oznaka, ))
     podatki = cur.fetchall()
     if podatki == []:
-        cur.execute('insert into priljubljene(uporabnik, nepremicnina) values ((%s), (%s))', (stanje, oznaka, ))
+        cur.execute('INSERT INTO priljubljene(uporabnik, nepremicnina) VALUES ((%s), (%s))', (stanje, oznaka, ))
         redirect('{0}nepremicnine/'.format(ROOT))
     else:
         redirect('{0}priljubljene/'.format(ROOT))
@@ -296,8 +304,7 @@ def dodaj_nepremicnine():
     #podatek = cur.fetchone()
 
     ukaz = """INSERT INTO nepremicnine (ime, vrsta, opis, leto, zemljisce, velikost, cena, agencija, regija)
-              VALUES((%(ime)s), (%(vrsta)s), (%(opis)s),(%(leto)s),(%(zemljisce)s), (%(velikost)s),(%(cena)s),(%(agencija)s),(%(regija)s))
-              """
+              VALUES((%(ime)s), (%(vrsta)s), (%(opis)s),(%(leto)s),(%(zemljisce)s), (%(velikost)s),(%(cena)s),(%(agencija)s),(%(regija)s))"""
     cur.execute(ukaz, podatki)
     rtemplate('dodaj_nepremicnine.html', stanje=stanje)
         
@@ -312,6 +319,3 @@ cur = baza.cursor(cursor_factory=psycopg2.extras.DictCursor)
 #=========================================================
 
 run(host='localhost', port=SERVER_PORT, reloader=RELOADER)
-
-
-

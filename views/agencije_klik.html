@@ -1,8 +1,13 @@
 % rebase('base.html', ROOT=ROOT, stanje=stanje)
 
+
+%for (ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija) in prva:
+    <h2>{{agencija}}</h2>
+%end
+
 <form>
     <b>Išči po imenih nepremičnin:</b>
-    <input type="text" id="vnos_iskanja" class="form-control" onkeyup="funkcija_iskanja_po_tabeli()" placeholder="Iskanje...">
+    <input type="text" id="vnos_iskanja" class="form-control"  style="width: 500px; height: 50px" onkeyup="funkcija_iskanja_po_tabeli()" placeholder="Iskanje...">
 </form>
 
 <table id="tabela" cellpadding="0" cellspacing="0" border="1">
@@ -20,7 +25,7 @@
     %end
     </tr>
     
-    %for (ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, regija) in nepremicnine:
+    %for (id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, regija) in nepremicnine:
         <tr>
             <td>
                 <form action="{{ROOT}}agencije/{{id}}" method="GET">

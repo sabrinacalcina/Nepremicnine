@@ -78,11 +78,14 @@ def agencije_get():
 @get('/agencije/<oznaka>')
 def agencije(oznaka):
     stanje = id_uporabnik()
-    ukaz = ("""SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, regija 
-                FROM (nepremicnine INNER JOIN regije ON nepremicnine.regija_id = regije.id) WHERE agencija_id =(%s)""")
-    cur.execute(ukaz,(oznaka, ))
+    cur.execute("""SELECT nepremicnine.id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, regija 
+                FROM (nepremicnine INNER JOIN regije ON nepremicnine.regija_id = regije.id) WHERE agencija_id =(%s)""", (oznaka, ))
     cura = cur.fetchall()
-    return rtemplate('agencije_klik.html', nepremicnine=cura, oznaka=oznaka, stanje = stanje)
+    cur.execute("""SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija
+                    FROM ((nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id = agencije.id) INNER JOIN regije 
+                    ON nepremicnine.regija_id = regije.id) WHERE agencija_id =(%s) LIMIT 1 """ , (oznaka, ))
+    prva = cur.fetchall()                    
+    return rtemplate('agencije_klik.html', nepremicnine=cura, oznaka=oznaka, stanje = stanje, prva = prva)
 
 #=========================================================
 
@@ -98,11 +101,15 @@ def regije_get():
 @get('/regije/<oznaka>')
 def regije(oznaka):
     stanje = id_uporabnik()
-    cur.execute("""SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija
+    cur.execute("""SELECT nepremicnine.id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija
                     FROM ((nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id = agencije.id) INNER JOIN regije 
                     ON nepremicnine.regija_id = regije.id) WHERE regija_id = (%s)""", (oznaka, ))
     nepremicnine = cur.fetchall()
-    return rtemplate('regije_klik.html', nepremicnine=nepremicnine, oznaka=oznaka, stanje = stanje)
+    cur.execute("""SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija
+                    FROM ((nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id = agencije.id) INNER JOIN regije 
+                    ON nepremicnine.regija_id = regije.id) WHERE regija_id = (%s) LIMIT 1 """, (oznaka, ))
+    prva = cur.fetchall()
+    return rtemplate('regije_klik.html', nepremicnine=nepremicnine, oznaka=oznaka, stanje = stanje, prva=prva)
 
 #=========================================================
 

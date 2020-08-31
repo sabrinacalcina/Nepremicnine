@@ -142,3 +142,12 @@
 
 /*konec slideshow */
 
+.search {
+  position: absolute;
+  height: 30px;
+  width: 50px;
+}
+.SearchBar input {
+  height: 30px;
+  width: 50px;
+}

@@ -340,6 +340,13 @@ def dodaj_nepremicnine():
         return rtemplate('dodaj_nepremicnine.html', stanje = stanje, napaka = 3, **podatki)
 
 
+    cur.execute("""SELECT id, ime, uporabnik, nepremicnina from (nepremicnine inner join objavljene on nepremicnine.id = objavljene.nepremicnina) 
+                    WHERE ime = (%s)""", (ime, ))
+    podatek = cur.fetchone()
+    if podatek != None:
+        return rtemplate('dodaj_nepremicnine.html', stanje = stanje, napaka = 5, **podatki)
+
+
 
     ukaz = """INSERT INTO nepremicnine (ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id)
               VALUES((%(ime)s), (%(vrsta)s), (%(opis)s),(%(leto)s),(%(zemljisce)s), (%(velikost)s),(%(cena)s),(%(agencija)s),(%(regija)s))"""

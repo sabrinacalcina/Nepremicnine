@@ -20,6 +20,9 @@
           %if napaka == 4:
           <p style="color:red"> Ta agencija ne obstaja.</p>     
           %end
+          %if napaka == 5:
+          <p style="color:red"> To ime že obstaja.</p>     
+          %end          
 
           <label for="name"><b>Ime: </b></label>
           <input type="text" class="form-control" placeholder="Vnesite ime vaše nepremičnine:" name="ime" value='{{ime}}'>

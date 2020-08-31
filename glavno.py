@@ -130,6 +130,24 @@ def odstrani(oznaka):
     cur.execute(ukaz, (stanje, oznaka))
     redirect('{0}priljubljene/'.format(ROOT))
 #=========================================================
+@get('/tvoje_nepremicnine/')
+def tvoje_nepremicnine():
+    stanje = id_uporabnik()
+    cur.execute("""SELECT nepremicnine.id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija
+                     FROM (((nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id = agencije.id) INNER JOIN regije 
+                     ON nepremicnine.regija_id = regije.id) INNER JOIN objavljene ON nepremicnine.id = objavljene.nepremicnina) 
+                     WHERE uporabnik = (%s)""", (stanje, ))   
+    nepremicnine = cur.fetchall()
+    return rtemplate('tvoje_nepremicnine.html', nepremicnine=nepremicnine, stanje = stanje) 
+
+@post('/tvoje_nepremicnine/<oznaka>')
+def odstrani_nepremicnino(oznaka):
+    stanje = id_uporabnik()
+    ukaz = 'DELETE FROM objavljene WHERE uporabnik = (%s) AND nepremicnina = (%s)'
+    cur.execute(ukaz, (stanje, oznaka))
+    redirect('{0}tvoje_nepremicnine/'.format(ROOT))
+
+#=========================================================
 #REGISTRACIJA
 
 @get('/registracija/')
@@ -322,22 +340,15 @@ def dodaj_nepremicnine():
         return rtemplate('dodaj_nepremicnine.html', stanje = stanje, napaka = 3, **podatki)
 
 
-    #if stavek za agencijo ampak ne znam dobit id-jev
-    #if stavek ce je tako ime ze uporabljeno
-    
-    # ukaz = """SELECT * FROM nepremicnine WHERE ime = (%s)"""
-    # cur.execute(ukaz, (ime, ))
-    # podatek = cur.fetchone()
-    # if podatek != None:
-    #     return rtemplate('registracija.html', stanje = stanje, napaka = 2, **podatki)
-
-
 
     ukaz = """INSERT INTO nepremicnine (ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id)
               VALUES((%(ime)s), (%(vrsta)s), (%(opis)s),(%(leto)s),(%(zemljisce)s), (%(velikost)s),(%(cena)s),(%(agencija)s),(%(regija)s))"""
     cur.execute(ukaz, podatki)
-    #rtemplate('dodaj_nepremicnine.html', stanje=stanje, napaka=0)
-    string = '{0}nepremicnine/'.format(ROOT)
+    cur.execute("SELECT id, ime, vrsta, opis FROM nepremicnine WHERE ime = (%s)", (ime, ))
+    podatki = cur.fetchone()
+    uid = podatki[0]
+    cur.execute("INSERT INTO objavljene (uporabnik, nepremicnina) VALUES ((%s), (%s))", (stanje, uid), )
+    string = '{0}tvoje_nepremicnine/'.format(ROOT, )
     redirect(string)
 
 #=========================================================

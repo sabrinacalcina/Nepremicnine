@@ -1,8 +1,9 @@
 % rebase('base.html', ROOT=ROOT, stanje=stanje)
 
+<br>
 
 %for (ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija) in prva:
-    <h2>{{agencija}}</h2>
+<h2><b>{{agencija}}</b></h2>
 %end
 
 <form>
@@ -29,7 +30,7 @@
         <tr>
             <td>
                 <form action="{{ROOT}}agencije/{{id}}" method="GET">
-                    <a href="#" onclick="this.parentElement.submit()">{{ime}}</a>
+                    <a href="{{ROOT}}nepremicnine/{{id}}" onclick="this.parentElement.submit()">{{ime}}</a>
                 </form>
             </td>
             <td>{{vrsta}}</td>

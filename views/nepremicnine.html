@@ -1,19 +1,20 @@
 % rebase('base.html', ROOT=ROOT, stanje=stanje)
 
+    <br>
+
+    <h2><b>Nepremičnine:</b></h2>
 
     <b>Išči po imenih nepremičnin:</b>
 
     <form>
-        <input type="text" id="vnos_iskanja" class="form-control"  style="width: 500px; height: 50px" onkeyup="funkcija_iskanja_po_tabeli()" placeholder="Iskanje...">
+        <input type="text" id="vnos_iskanja" style="width: 500px; height: 50px" onkeyup="funkcija_iskanja_po_tabeli()" placeholder="Iskanje...">
     </form>
 
 
 
 <table id="tabela" cellpadding="0" cellspacing="0" border="1">
 
-<tr>
-    <h2><b>Nepremičnine:</b></h2>
-</tr>
+
 <tr>
     <th>Ime</th>
     <th>Vrsta</th>
@@ -32,7 +33,9 @@
 %for (id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija) in nepremicnine:
     <tr>
         <td>
-            <a href="{{ROOT}}nepremicnine/{{id}}" onclick="this.parentElement.submit()">{{ime}}</a>
+            <form action="{{ROOT}}nepremicnine/{{id}}" method="GET">
+                <a href="{{ROOT}}nepremicnine/{{id}}" onclick="this.parentElement.submit()">{{ime}}</a>
+            </form>
         </td>
         <td>{{vrsta}}</td>
         <td>{{opis}}</td>

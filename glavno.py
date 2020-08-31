@@ -121,12 +121,7 @@ def priljubljene():
                      ON nepremicnine.regija_id = regije.id) JOIN priljubljene ON nepremicnine.id = nepremicnina) 
                      WHERE uporabnik = (%s)""", (stanje, ))    
     nepremicnine = cur.fetchall()
-    pogoj = 'SELECT ime, priimek FROM uporabniki WHERE id = (%s)'
-    cur.execute(pogoj, (stanje, ))
-    podatki = cur.fetchone()
-    ime = podatki[0]
-    priimek = podatki[1]
-    return rtemplate('priljubljene.html', nepremicnine=nepremicnine, ime = ime, priimek = priimek, stanje = stanje)
+    return rtemplate('priljubljene.html', nepremicnine=nepremicnine, stanje = stanje)
 
 @post('/priljubljene/<oznaka>')
 def odstrani(oznaka):
@@ -290,9 +285,10 @@ def odjava():
 @get('/dodaj_nepremicnine/')
 def dodaj():
     stanje = id_uporabnik()
+    print('a')
     polja_dodaj = ("ime", "vrsta", "opis", "leto", "zemljisce", "velikost", "cena", "agencija", "regija")
     podatki = {polje: "" for polje in polja_dodaj} 
-    return rtemplate('dodaj_nepremicnine.html', stanje=stanje, napaka=1, **podatki)
+    return rtemplate('dodaj_nepremicnine.html', stanje=stanje, napaka=0, **podatki)
 
 
 @post('/dodaj_nepremicnine/')
@@ -300,6 +296,8 @@ def dodaj_nepremicnine():
     stanje = id_uporabnik()
     polja_dodaj = ("ime", "vrsta", "opis", "leto", "zemljisce", "velikost", "cena", "agencija", "regija")
     podatki = {polje: "" for polje in polja_dodaj}
+    podatki = {polje: getattr(request.forms, polje) for polje in polja_dodaj}
+
 
     ime = podatki.get('ime')
     vrsta = podatki.get('vrsta')
@@ -313,10 +311,16 @@ def dodaj_nepremicnine():
 
 
     if ime == '' or vrsta == '' or opis == '' or leto == '' or zemljisce == '' or velikost == '' or cena == '' or agencija == '' or regija == '':
+        print(1)
         return rtemplate('dodaj_nepremicnine.html', stanje= stanje, napaka = 1, **podatki)
 
-    if leto < 1200 or zemljisce < 0 or velikost < 0 or cena < 0:
+    try:
+        if int(leto) < 1200 or int(zemljisce) < 0 or int(velikost) < 0 or int(cena) < 0:
+            print(2)
+            return rtemplate('dodaj_nepremicnine.html', stanje = stanje, napaka = 3, **podatki)
+    except:
         return rtemplate('dodaj_nepremicnine.html', stanje = stanje, napaka = 3, **podatki)
+
 
     #if stavek za agencijo ampak ne znam dobit id-jev
     #if stavek ce je tako ime ze uporabljeno
@@ -328,15 +332,13 @@ def dodaj_nepremicnine():
     #     return rtemplate('registracija.html', stanje = stanje, napaka = 2, **podatki)
 
 
-    # else:
-    #     return rtemplate('registracija.html', stanje = stanje, napaka = 3, **podatki)
-
 
     ukaz = """INSERT INTO nepremicnine (ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id)
               VALUES((%(ime)s), (%(vrsta)s), (%(opis)s),(%(leto)s),(%(zemljisce)s), (%(velikost)s),(%(cena)s),(%(agencija)s),(%(regija)s))"""
     cur.execute(ukaz, podatki)
-    rtemplate('dodaj_nepremicnine.html', stanje=stanje)
-        
+    #rtemplate('dodaj_nepremicnine.html', stanje=stanje, napaka=0)
+    string = '{0}nepremicnine/'.format(ROOT)
+    redirect(string)
 
 #=========================================================
 

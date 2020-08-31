@@ -1,6 +1,7 @@
 % rebase('base.html', ROOT=ROOT, stanje=stanje)
 
 <form>
+    <b>Išči po imenih nepremičnin:</b>
     <input type="text" id="vnos_iskanja" class="form-control" onkeyup="funkcija_iskanja_po_tabeli()" placeholder="Iskanje...">
 </form>
 
@@ -14,6 +15,9 @@
         <th>Velikost</th>
         <th>Cena</th>
         <th>Regija</th>
+        %if stanje != 0:
+        <th>Dodaj med priljubljene</th>
+    %end
     </tr>
     
     %for (ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, regija) in nepremicnine:
@@ -30,6 +34,9 @@
             <td>{{velikost}}</td>
             <td>{{cena}}</td>
             <td><a href="{{ROOT}}regije/{{regija_id}}">{{regija}}</td>
+            %if stanje != 0:
+            <td><a class='button' href="{{ROOT}}nepremicnine/{{id}}">Dodaj</a></td>
+            %end
         </tr>
     %end
     

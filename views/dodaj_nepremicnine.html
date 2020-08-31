@@ -8,6 +8,18 @@
           <p>Nepremičnine bodo vidne ostalim uporabnikom.</p>
           <p>Izpolnite naslednja polja.</p>
 
+          %if napaka == 1:
+          <p style="color:red"> Izpolnite vsa polja.</p>
+          %end
+          %if napaka == 2:
+          <p style="color:red"> To ime je že uporabljeno. </p>
+          %end
+          %if napaka == 3:
+          <p style="color:red"> Vnešeni podatki nimajo smisla.</p>      
+          %end
+          %if napaka == 4:
+          <p style="color:red"> Ta agencija ne obstaja.</p>     
+          %end
 
           <label for="ime"><b>Ime: </b></label>
           <input type="text" class="form-control" placeholder="Vnesite ime vaše nepremičnine:" name="ime" value='{{ime}}'>
@@ -36,7 +48,10 @@
           <br>
           <label for="regija"><b>Vnesi ime regije: </b></label>
           <input type="text" placeholder="Vnesite ime regije:" name="regija" value='{{regija}}'>
+          <br>          
           <br>
+          <input type="checkbox" checked="checked" name="agree" style="margin-bottom:15px"> Strinjam se s pogoji uporabe
+          <a href="#" style="color:dodgerblue">Terms & Privacy</a>
       
           <div class="clearfix">
             <button class="btn btn-lg btn-primary btn-block" type="submit">Dodaj</button>

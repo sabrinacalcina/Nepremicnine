@@ -98,8 +98,9 @@ def regije_get():
 @get('/regije/<oznaka>')
 def regije(oznaka):
     stanje = id_uporabnik()
-    cur.execute("""SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija 
-                    FROM (nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id= agencije.id) WHERE regija_id = (%s)""", (oznaka, ))
+    cur.execute("""SELECT ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija
+                    FROM ((nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id = agencije.id) INNER JOIN regije 
+                    ON nepremicnine.regija_id = regije.id) WHERE regija_id = (%s)""", (oznaka, ))
     nepremicnine = cur.fetchall()
     return rtemplate('regije_klik.html', nepremicnine=nepremicnine, oznaka=oznaka, stanje = stanje)
 
@@ -280,6 +281,14 @@ def odjava():
 #za dodat nepremičnino-ne dela
 
 @get('/dodaj_nepremicnine/')
+def dodaj():
+    stanje = id_uporabnik()
+    polja_dodaj = ("ime", "vrsta", "opis", "leto", "zemljisce", "velikost", "cena", "agencija", "regija")
+    podatki = {polje: "" for polje in polja_dodaj} 
+    return rtemplate('dodaj_nepremicnine.html', stanje=stanje, napaka=1, **podatki)
+
+
+@post('/dodaj_nepremicnine/')
 def dodaj_nepremicnine():
     stanje = id_uporabnik()
     polja_dodaj = ("ime", "vrsta", "opis", "leto", "zemljisce", "velikost", "cena", "agencija", "regija")
@@ -299,11 +308,24 @@ def dodaj_nepremicnine():
     if ime == '' or vrsta == '' or opis == '' or leto == '' or zemljisce == '' or velikost == '' or cena == '' or agencija == '' or regija == '':
         return rtemplate('dodaj_nepremicnine.html', stanje= stanje, napaka = 1, **podatki)
 
-    #ukaz = """SELECT * FROM uporabniki WHERE email = (%s)"""
-    #cur.execute(ukaz, (email, ))
-    #podatek = cur.fetchone()
+    if leto < 1200 or zemljisce < 0 or velikost < 0 or cena < 0:
+        return rtemplate('dodaj_nepremicnine.html', stanje = stanje, napaka = 3, **podatki)
 
-    ukaz = """INSERT INTO nepremicnine (ime, vrsta, opis, leto, zemljisce, velikost, cena, agencija, regija)
+    #if stavek za agencijo ampak ne znam dobit id-jev
+    #if stavek ce je tako ime ze uporabljeno
+    
+    # ukaz = """SELECT * FROM nepremicnine WHERE ime = (%s)"""
+    # cur.execute(ukaz, (ime, ))
+    # podatek = cur.fetchone()
+    # if podatek != None:
+    #     return rtemplate('registracija.html', stanje = stanje, napaka = 2, **podatki)
+
+
+    # else:
+    #     return rtemplate('registracija.html', stanje = stanje, napaka = 3, **podatki)
+
+
+    ukaz = """INSERT INTO nepremicnine (ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id)
               VALUES((%(ime)s), (%(vrsta)s), (%(opis)s),(%(leto)s),(%(zemljisce)s), (%(velikost)s),(%(cena)s),(%(agencija)s),(%(regija)s))"""
     cur.execute(ukaz, podatki)
     rtemplate('dodaj_nepremicnine.html', stanje=stanje)

@@ -1,6 +1,11 @@
 % rebase('base.html', ROOT=ROOT, stanje=stanje)
 
-<table cellpadding="0" cellspacing="0" border="1">
+<form>
+    <input type="text" id="vnos_iskanja" class="form-control" onkeyup="funkcija_iskanja_po_tabeli()" placeholder="Iskanje...">
+</form>
+
+<table id="tabela" cellpadding="0" cellspacing="0" border="1">
+
 <tr>
     <th>Ime</th>
     <th>Vrsta</th>
@@ -18,17 +23,21 @@
 
 %for (id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija) in nepremicnine:
     <tr>
-        <th>{{ime}}</th>
-        <th>{{vrsta}}</th>
-        <th>{{opis}}</th>
-        <th>{{leto_izgradnje}}</th>
-        <th>{{zemljisce}}</th>
-        <th>{{velikost}}</th>
-        <th>{{cena}}</th>
-        <th><a href="{{ROOT}}agencije/{{agencija_id}}">{{agencija}}</th>
-        <th><a href="{{ROOT}}regije/{{regija_id}}">{{regija}}</th>
+        <td>
+            <form action="{{ROOT}}agencije/{{id}}" method="GET">
+                <a href="#" onclick="this.parentElement.submit()">{{ime}}</a>
+            </form>
+        </td>
+        <td>{{vrsta}}</td>
+        <td>{{opis}}</td>
+        <td>{{leto_izgradnje}}</td>
+        <td>{{zemljisce}}</td>
+        <td>{{velikost}}</td>
+        <td>{{cena}}</td>
+        <td><a href="{{ROOT}}agencije/{{agencija_id}}">{{agencija}}</td>
+        <td><a href="{{ROOT}}regije/{{regija_id}}">{{regija}}</td>
         %if stanje != 0:
-        <th><a class='button' href="{{ROOT}}nepremicnine/{{id}}">Dodaj</a></th>
+        <td><a class='button' href="{{ROOT}}nepremicnine/{{id}}">Dodaj</a></td>
         %end
     </tr>
 %end

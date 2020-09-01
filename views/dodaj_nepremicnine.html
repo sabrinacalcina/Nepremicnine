@@ -47,18 +47,35 @@
           <input type="text" placeholder="Vnesite ceno nepremicnine:" name="cena" value='{{cena}}'>
           <br>
           <label for="text"><b>Vnesi ime agencije: </b></label>
-          <input type="text" placeholder="Vnesi ime agencije:" name="agencija" value='{{agencija}}'>
+          <p>Vaša privzeta agencija je Naša agencija.</p>
           <br>
           <label for="text"><b>Vnesi ime regije: </b></label>
-          <input type="text" placeholder="Vnesite ime regije:" name="regija" value='{{regija}}'>
-          <br>          
-          <br>
+            <select name="regija" id="regija_id" value="{{regija}}">
+              <option value="1">Ljubljana mesto</option>
+              <option value="2">Ljubljana okolica</option>
+              <option value="3">Gorenjska</option>
+              <option value="4">Južna Primorska</option>
+              <option value="5">Severna Primorska</option>
+              <option value="6">Notranjska</option>
+              <option value="7">Savinjska</option>
+              <option value="8">Podravska</option>
+              <option value="9">Koroška</option>
+              <option value="10">Dolenjska</option>
+              <option value="11">Posavska</option>
+              <option value="12">Zasavska</option>
+              <option value="13">Pomurska</option>
+            </select>
+          </form>
           <input type="checkbox" checked="checked" name="agree" style="margin-bottom:15px"> Strinjam se s pogoji uporabe
           <a href="#" style="color:dodgerblue">Terms & Privacy</a>
-      
+          <br>          
+          <br>
+          
           <div class="clearfix">
             <button class="btn btn-lg btn-primary btn-block" type="submit">Dodaj</button>
           </div>
         </div>           
       </form>
     </div>
+
+

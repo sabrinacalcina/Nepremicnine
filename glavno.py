@@ -116,6 +116,8 @@ def regije(oznaka):
 @get('/priljubljene/')
 def priljubljene():
     stanje = id_uporabnik()
+    if stanje == 0:
+        redirect('{0}'.format(ROOT))
     cur.execute("""SELECT nepremicnine.id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija
                      FROM (((nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id = agencije.id) INNER JOIN regije 
                      ON nepremicnine.regija_id = regije.id) JOIN priljubljene ON nepremicnine.id = nepremicnina) 
@@ -127,12 +129,14 @@ def priljubljene():
 def odstrani(oznaka):
     stanje = id_uporabnik()
     ukaz = 'DELETE FROM priljubljene WHERE uporabnik = (%s) AND nepremicnina = (%s)'
-    cur.execute(ukaz, (stanje, oznaka))
+    cur.execute(ukaz, (stanje, oznaka, ))
     redirect('{0}priljubljene/'.format(ROOT))
 #=========================================================
 @get('/tvoje_nepremicnine/')
 def tvoje_nepremicnine():
     stanje = id_uporabnik()
+    if stanje == 0:
+        redirect('{0}'.format(ROOT))
     cur.execute("""SELECT nepremicnine.id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija
                      FROM (((nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id = agencije.id) INNER JOIN regije 
                      ON nepremicnine.regija_id = regije.id) INNER JOIN objavljene ON nepremicnine.id = objavljene.nepremicnina) 
@@ -143,8 +147,9 @@ def tvoje_nepremicnine():
 @post('/tvoje_nepremicnine/<oznaka>')
 def odstrani_nepremicnino(oznaka):
     stanje = id_uporabnik()
-    ukaz = 'DELETE FROM objavljene WHERE uporabnik = (%s) AND nepremicnina = (%s)'
-    cur.execute(ukaz, (stanje, oznaka))
+    ukaz = 'DELETE FROM objavljene WHERE nepremicnina = (%s)'
+    cur.execute(ukaz, (oznaka, ))
+    #cur.execute('DELETE FROM nepremicnine where id = (%s)', (oznaka, ))
     redirect('{0}tvoje_nepremicnine/'.format(ROOT))
 
 #=========================================================
@@ -154,7 +159,7 @@ def odstrani_nepremicnino(oznaka):
 def register():
     stanje = id_uporabnik()
     if stanje !=0:
-        redirect('{0}zacetna_stran/'.format(ROOT))
+        redirect('{0}'.format(ROOT))
     polja_registracija = ("ime", "priimek", "email", "psw", "psw2", "uporabnisko_ime")
     podatki = {polje: "" for polje in polja_registracija} 
     napaka = 0
@@ -218,7 +223,7 @@ def check(uime, geslo):
 def prijava_get():
     stanje = id_uporabnik()
     if stanje != 0:
-        redirect('{0}zacetna_stran/'.format(ROOT))
+        redirect('{0}'.format(ROOT))
     return rtemplate('prijava.html', napaka=0, stanje = stanje)
 
 @post('/prijava/')
@@ -257,9 +262,8 @@ def hashGesla(s):
 
 @get('/uporabnik/<stanje>/')
 def uporabnik(stanje):
-    if int(stanje) != id_uporabnik():
+    if int(stanje) != id_uporabnik() or id_uporabnik == 0:
         redirect("{0}".format(ROOT))
-
     ukaz = 'SELECT ime, priimek FROM uporabniki WHERE id = (%s)'
     cur.execute(ukaz, (stanje, ))
     podatki = cur.fetchone()
@@ -282,6 +286,8 @@ def nepremicnina(oznaka):
 @post('/nepremicnine/<oznaka>')
 def potrditev(oznaka):
     stanje = id_uporabnik()
+    if stanje == 0:
+        redirect('{0}'.format(ROOT))
     cur.execute('SELECT * FROM priljubljene WHERE uporabnik = (%s) AND nepremicnina = (%s)',(stanje, oznaka, ))
     podatki = cur.fetchall()
     if podatki == []:
@@ -303,7 +309,8 @@ def odjava():
 @get('/dodaj_nepremicnine/')
 def dodaj():
     stanje = id_uporabnik()
-    print('a')
+    if stanje == 0:
+        redirect('{0}'.format(ROOT))
     polja_dodaj = ("ime", "vrsta", "opis", "leto", "zemljisce", "velikost", "cena", "agencija", "regija")
     podatki = {polje: "" for polje in polja_dodaj} 
     return rtemplate('dodaj_nepremicnine.html', stanje=stanje, napaka=0, **podatki)
@@ -312,10 +319,9 @@ def dodaj():
 @post('/dodaj_nepremicnine/')
 def dodaj_nepremicnine():
     stanje = id_uporabnik()
-    polja_dodaj = ("ime", "vrsta", "opis", "leto", "zemljisce", "velikost", "cena", "agencija", "regija")
+    polja_dodaj = ("ime", "vrsta", "opis", "leto", "zemljisce", "velikost", "cena", "regija")
     podatki = {polje: "" for polje in polja_dodaj}
     podatki = {polje: getattr(request.forms, polje) for polje in polja_dodaj}
-
 
     ime = podatki.get('ime')
     vrsta = podatki.get('vrsta')
@@ -324,21 +330,17 @@ def dodaj_nepremicnine():
     zemljisce = podatki.get('zemljisce')
     velikost = podatki.get('velikost')
     cena = podatki.get('cena')
-    agencija = podatki.get('agencija')
     regija = podatki.get('regija')
 
 
-    if ime == '' or vrsta == '' or opis == '' or leto == '' or zemljisce == '' or velikost == '' or cena == '' or agencija == '' or regija == '':
-        print(1)
+    if ime == '' or vrsta == '' or opis == '' or leto == '' or zemljisce == '' or velikost == '' or cena == '' :
         return rtemplate('dodaj_nepremicnine.html', stanje= stanje, napaka = 1, **podatki)
 
     try:
-        if int(leto) < 1200 or int(zemljisce) < 0 or int(velikost) < 0 or int(cena) < 0:
-            print(2)
+        if int(leto) < 1200 or int(leto) > 2020 or int(zemljisce) < 0 or int(velikost) < 0 or int(cena) < 0:
             return rtemplate('dodaj_nepremicnine.html', stanje = stanje, napaka = 3, **podatki)
     except:
         return rtemplate('dodaj_nepremicnine.html', stanje = stanje, napaka = 3, **podatki)
-
 
     cur.execute("""SELECT id, ime, uporabnik, nepremicnina from (nepremicnine inner join objavljene on nepremicnine.id = objavljene.nepremicnina) 
                     WHERE ime = (%s)""", (ime, ))
@@ -349,12 +351,12 @@ def dodaj_nepremicnine():
 
 
     ukaz = """INSERT INTO nepremicnine (ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id)
-              VALUES((%(ime)s), (%(vrsta)s), (%(opis)s),(%(leto)s),(%(zemljisce)s), (%(velikost)s),(%(cena)s),(%(agencija)s),(%(regija)s))"""
+              VALUES((%(ime)s), (%(vrsta)s), (%(opis)s),(%(leto)s),(%(zemljisce)s), (%(velikost)s),(%(cena)s), 542 ,(%(regija)s))
+              RETURNING id"""
     cur.execute(ukaz, podatki)
-    cur.execute("SELECT id, ime, vrsta, opis FROM nepremicnine WHERE ime = (%s)", (ime, ))
     podatki = cur.fetchone()
     uid = podatki[0]
-    cur.execute("INSERT INTO objavljene (uporabnik, nepremicnina) VALUES ((%s), (%s))", (stanje, uid), )
+    cur.execute("INSERT INTO objavljene (uporabnik, nepremicnina) VALUES ((%s), (%s))", (stanje, uid, ))
     string = '{0}tvoje_nepremicnine/'.format(ROOT, )
     redirect(string)
 

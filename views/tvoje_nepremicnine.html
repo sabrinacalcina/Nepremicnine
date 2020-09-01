@@ -32,9 +32,11 @@
         <th><a href="{{ROOT}}regije/{{regija_id}}">{{regija}}</th>
         <form action='{{ROOT}}tvoje_nepremicnine/{{id}}' class="form-signin text-center" method='post' style="width: 30%;margin-top: 5cm">
         <th><input value='Odstrani' type='submit' /></th>
+        </form>
         </tr>
 %end
 %end
 %if nepremicnine == []:
 <h2>Nimate še nobenih dodanih nepremičnin.</h2>
+%end
 </table>

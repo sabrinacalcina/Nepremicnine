@@ -4,6 +4,12 @@
 
 <h2><b>Potrditev za novo priljubljeno nepremičnino:</b></h2>
 
+<script>
+    function display() {
+      alert("Nepremičnino ste dodali med priljubljene");
+    }
+</script>
+
 <table cellpadding="0" cellspacing="0" border="1">
 %for  id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija in podatki:
 
@@ -47,7 +53,7 @@
 
 <form action='{{ROOT}}nepremicnine/{{id}}' class="form-signin text-center" method='post' style="width: 30%;margin-top: 3cm">
     <div class="clearfix">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Dodaj</button>
+        <button class="btn btn-lg btn-primary btn-block" onclick="display()" type="submit">Dodaj</button>
     </div>
 
 </form>

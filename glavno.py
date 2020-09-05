@@ -29,7 +29,6 @@ kodiranje = 'laqwXUtKfHTp1SSpnkSg7VbsJtCgYS89QnvE7PedkXqbE8pPj7VeRUwqdXu1Fr1kEkM
 def id_uporabnik():
     if request.get_cookie("id", secret = kodiranje):
         piskotek = request.get_cookie("id", secret = kodiranje)
-        print(piskotek)
         return piskotek
     else:
         return 0
@@ -63,16 +62,6 @@ def nepremicnine_get():
                     ON nepremicnine.regija_id = regije.id)""")
     nepremicnine = cur.fetchall()
     return rtemplate('nepremicnine.html', nepremicnine=nepremicnine, stanje = stanje)
-
-#=========================================================
-
-@get('/nepremicnine/<sobe>/<velikost>/<leto>')
-def nepremicnine_filter(sobe, velikost, leto):
-    stanje = id_uporabnik()
-    cur.execute("""SELECT nepremicnine.id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, regija 
-                FROM (nepremicnine INNER JOIN regije ON nepremicnine.regija_id = regije.id) WHERE opis =(%s) AND velikost<=(%s) AND leto_izgradnje<=(%s)""", (sobe, velikost, leto, ))
-    cura = cur.fetchall()                 
-    return rtemplate('nepremicnine_filter.html', nepremicnine=cura, sobe=sobe, velikost=velikost, leto=leto, stanje = stanje)
 
 #=========================================================
 
@@ -188,12 +177,10 @@ def registracija():
     geslo1 = podatki.get('psw')
     geslo2 = podatki.get('psw2')
 
-
     if ime == '' or priimek == '' or email == '' or uporabnisko_ime == '' or geslo1 == '' or geslo2 == '':
         return rtemplate('registracija.html', stanje= stanje, napaka = 1, **podatki)
 
-    ukaz = """SELECT * FROM uporabniki WHERE email = (%s)"""
-    cur.execute(ukaz, (email, ))
+    cur.execute("""SELECT * FROM uporabniki WHERE email = (%s)""", (email, ))
     podatek = cur.fetchone()
     if podatek != None:
         return rtemplate('registracija.html', stanje = stanje, napaka = 2, **podatki)
@@ -351,7 +338,7 @@ def dodaj_nepremicnine():
     except:
         return rtemplate('dodaj_nepremicnine.html', stanje = stanje, napaka = 3, **podatki)
 
-    cur.execute("""SELECT id, ime, uporabnik, nepremicnina from (nepremicnine inner join objavljene on nepremicnine.id = objavljene.nepremicnina) 
+    cur.execute("""SELECT id, ime, uporabnik, nepremicnina FROM (nepremicnine INNER JOIN objavljene ON nepremicnine.id = objavljene.nepremicnina) 
                     WHERE ime = (%s)""", (ime, ))
     podatek = cur.fetchone()
     if podatek != None:

@@ -148,6 +148,8 @@ def odstrani_nepremicnino(oznaka):
     stanje = id_uporabnik()
     ukaz = 'DELETE FROM objavljene WHERE nepremicnina = (%s)'
     cur.execute(ukaz, (oznaka, ))
+    izbris_iz_baze = 'DELETE FROM nepremicnine WHERE id =(%s)'
+    cur.execute(izbris_iz_baze, (oznaka, ))
     redirect('{0}tvoje_nepremicnine/'.format(ROOT))
 
 #=========================================================

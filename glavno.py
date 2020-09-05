@@ -67,10 +67,10 @@ def nepremicnine_get():
 #=========================================================
 
 @get('/nepremicnine/<sobe>/<velikost>/<leto>')
-def agencije(sobe, velikost, leto):
+def nepremicnine_filter(sobe, velikost, leto):
     stanje = id_uporabnik()
     cur.execute("""SELECT nepremicnine.id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, regija 
-                FROM (nepremicnine INNER JOIN regije ON nepremicnine.regija_id = regije.id) WHERE opis =(%s)""", (sobe, velikost, leto, ))
+                FROM (nepremicnine INNER JOIN regije ON nepremicnine.regija_id = regije.id) WHERE opis =(%s) AND velikost<=(%s) AND leto_izgradnje<=(%s)""", (sobe, velikost, leto, ))
     cura = cur.fetchall()                 
     return rtemplate('nepremicnine_filter.html', nepremicnine=cura, sobe=sobe, velikost=velikost, leto=leto, stanje = stanje)
 

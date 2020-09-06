@@ -293,6 +293,18 @@ def potrditev(oznaka):
         redirect('{0}nepremicnine/'.format(ROOT))
     else:
         redirect('{0}priljubljene/'.format(ROOT))
+
+#=========================================================
+#prikaz nepremicnine
+@get('/nepremicnine_prikaz/<oznaka>')
+def nepremicnina_prikaz(oznaka):
+    stanje = id_uporabnik()
+    cur.execute("""SELECT nepremicnine.id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija
+                     FROM ((nepremicnine INNER JOIN agencije ON nepremicnine.agencija_id = agencije.id) INNER JOIN regije 
+                     ON nepremicnine.regija_id = regije.id) WHERE nepremicnine.id = (%s)""", (oznaka, ))
+    podatki = cur.fetchall()
+    return rtemplate('prikaz_nepremicnine.html', stanje = stanje, podatki = podatki, oznaka=oznaka)
+
 #=========================================================
 #ODJAVA
 

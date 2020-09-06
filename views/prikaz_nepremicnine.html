@@ -1,0 +1,50 @@
+% rebase('base.html', ROOT = ROOT, stanje=stanje)
+
+<br>
+
+<h2><b>Podatki izbrane nepreičnine:</b></h2>
+
+
+<table cellpadding="0" cellspacing="0" border="1">
+%for  id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija in podatki:
+
+    <tr>
+        <th>Ime</th>
+        <th>{{ime}}</th>
+    </tr>
+    <tr>
+        <th>Vrsta</th>
+        <th>{{vrsta}}</th>
+    </tr>
+    <tr>
+        <th>Opis</th>
+        <th>{{opis}}</th>
+    </tr>
+    <tr>
+        <th>Leto izgradnje</th>
+        <th>{{leto_izgradnje}}</th>
+    </tr>
+    <tr>
+        <th>Zemljišče</th>
+        <th>{{zemljisce}}</th>
+    </tr>
+    <tr>
+        <th>Velikost</th>
+        <th>{{velikost}}</th>
+    </tr>
+    <tr>
+        <th>Cena</th>
+        <th>{{cena}}</th>
+    </tr>
+    <tr>
+        <th>Agencija</th>
+        <th>{{agencija}}</th>
+    </tr>
+    <tr>
+        <th>Regija</th>
+        <th>{{regija}}</th>
+    </tr>
+    </table>
+
+
+%end

@@ -29,9 +29,15 @@
     %for (id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija) in nepremicnine:
         <tr>
             <td>
-                <form action="{{ROOT}}agencije/{{id}}" method="GET">
+                %if stanje != 0:
+                <form action="{{ROOT}}regije/{{id}}" method="GET">
                     <a href="{{ROOT}}nepremicnine/{{id}}" onclick="this.parentElement.submit()">{{ime}}</a>
                 </form>
+                %else:
+                <form action="{{ROOT}}regije/{{id}}" method="GET">
+                    <a href="{{ROOT}}nepremicnine_prikaz/{{id}}" onclick="this.parentElement.submit()">{{ime}}</a>
+                </form>
+                %end
             </td>
             <td>{{vrsta}}</td>
             <td>{{opis}}</td>

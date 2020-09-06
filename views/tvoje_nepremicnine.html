@@ -20,7 +20,11 @@
 
 %for (id, ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id, agencija, regija) in nepremicnine:
     <tr>
-        <th>{{ime}}</th>
+        <th>            
+            <form action="{{ROOT}}nepremicnine/{{id}}" method="GET">
+            <a href="{{ROOT}}nepremicnine/{{id}}" onclick="this.parentElement.submit()">{{ime}}</a>
+            </form>
+        </th>
         <th>{{vrsta}}</th>
         <th>{{opis}}</th>
         <th>{{leto_izgradnje}}</th>

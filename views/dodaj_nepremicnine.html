@@ -47,8 +47,24 @@
           <input type="text" placeholder="Vnesite ceno nepremicnine:" name="cena" value='{{cena}}'>
           <br>
           <label for="text"><b>Vnesi ime agencije: </b></label>
-          <p>Vaša privzeta agencija je Naša agencija.</p>
+          <p>Lahko izbirate med naslednjimi agencijami, s katerimi boste sodelovali.</p>
+          <select name="agencija" id="agencija_id" value="{{agencija}}">
+            <option value="1">YES NEPREMIČNINE, nepremičninska agencija, d.o.o.</option>
+            <option value="2">Mreža nepremičnin d.o.o.</option>
+            <option value="3">Salomon d.o.o. Ljubljana</option>
+            <option value="4">Harmonija nepremičnine Ksenja Kokalj s.p.</option>
+            <option value="5">MESTO NEPREMIČNIN d.o.o.</option>
+            <option value="6">ABC nepremičnine d.o.o.</option>
+            <option value="7">STAN nepremičnine d.o.o., Ljubljana</option>
+            <option value="8">Stoja trade, d.o.o., Ljubljana</option>
+            <option value="9">Zasebna ponudba</option>
+            <option value="10">S-Invest d.o.o.</option>
+            <option value="11">Casa 69 d.o.o.</option>
+            <option value="12">Studio 68 d.o.o.</option>
+            <option value="542">Naša agencija</option>
+          </select>
           <br>
+          
           <label for="text"><b>Vnesi ime regije: </b></label>
             <select name="regija" id="regija_id" value="{{regija}}">
               <option value="1">Ljubljana mesto</option>

@@ -50,7 +50,7 @@ def index():
 
 @get('/zacetna_stran/')
 def zacetna_get():  
-    return redirect('/{0}/'.format(ROOT))
+    return redirect('{0}'.format(ROOT))
 
 #=========================================================
 
@@ -314,7 +314,7 @@ def odjava():
     redirect('{0}zacetna_stran/'.format(ROOT))    
 
 #=========================================================
-#za dodat nepremičnino-ne dela
+#za dodat nepremičnino
 
 @get('/dodaj_nepremicnine/')
 def dodaj():
@@ -325,11 +325,10 @@ def dodaj():
     podatki = {polje: "" for polje in polja_dodaj} 
     return rtemplate('dodaj_nepremicnine.html', stanje=stanje, napaka=0, **podatki)
 
-
 @post('/dodaj_nepremicnine/')
 def dodaj_nepremicnine():
     stanje = id_uporabnik()
-    polja_dodaj = ("ime", "vrsta", "opis", "leto", "zemljisce", "velikost", "cena", "regija")
+    polja_dodaj = ("ime", "vrsta", "opis", "leto", "zemljisce", "velikost", "cena", "agencija", "regija")
     podatki = {polje: "" for polje in polja_dodaj}
     podatki = {polje: getattr(request.forms, polje) for polje in polja_dodaj}
 
@@ -340,8 +339,8 @@ def dodaj_nepremicnine():
     zemljisce = podatki.get('zemljisce')
     velikost = podatki.get('velikost')
     cena = podatki.get('cena')
+    agencija = podatki.get('agencija')
     regija = podatki.get('regija')
-
 
     if ime == '' or vrsta == '' or opis == '' or leto == '' or zemljisce == '' or velikost == '' or cena == '' :
         return rtemplate('dodaj_nepremicnine.html', stanje= stanje, napaka = 1, **podatki)
@@ -361,7 +360,7 @@ def dodaj_nepremicnine():
 
 
     ukaz = """INSERT INTO nepremicnine (ime, vrsta, opis, leto_izgradnje, zemljisce, velikost, cena, agencija_id, regija_id)
-              VALUES((%(ime)s), (%(vrsta)s), (%(opis)s),(%(leto)s),(%(zemljisce)s), (%(velikost)s),(%(cena)s), 542 ,(%(regija)s))
+              VALUES((%(ime)s), (%(vrsta)s), (%(opis)s),(%(leto)s),(%(zemljisce)s), (%(velikost)s),(%(cena)s), (%(agencija)s) ,(%(regija)s))
               RETURNING id"""
     cur.execute(ukaz, podatki)
     podatki = cur.fetchone()

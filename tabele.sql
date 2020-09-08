@@ -20,7 +20,7 @@ CREATE TABLE nepremicnine (
   vrsta text NOT NULL,
   opis text NOT NULL,
   leto_izgradnje integer,
-  zemljisce text, --tu more bit real
+  zemljisce text,
   velikost real NOT NULL,
   cena real NOT NULL,
   agencija integer REFERENCES agencije(id),
@@ -51,11 +51,6 @@ GRANT ALL ON DATABASE sem2020_domenfb TO timotejg;
 GRANT ALL ON SCHEMA public TO timotejg;
 GRANT ALL ON ALL TABLES IN SCHEMA public TO timotejg;
 GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO timotejg;
-
---GRANT SELECT ON DATABASE sem2020_domenfb TO javnost;
---GRANT ALL ON SCHEMA public TO javnost;
---GRANT ALL ON ALL TABLES IN SCHEMA public TO javnost;
---GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO javnost;
 
 --GRANT SELECT ON DATABASE sem2020_domenfb TO javnost;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO javnost;

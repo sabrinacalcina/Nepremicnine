@@ -50,7 +50,7 @@ def index():
 
 @get('/zacetna_stran/')
 def zacetna_get():  
-    return redirect('{0}'.format(ROOT))
+    redirect('{0}'.format(ROOT))
 
 #=========================================================
 
